@@ -22,6 +22,7 @@ def do_zmap(port, range):
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
     out, _ = p.communicate()
     #print ' '.join(out.split('\n'))
+    return out.split('\n')
     return ' '.join(out.split('\n'))
 
 
@@ -44,13 +45,19 @@ def zmap_range(ranges):
     #subprocess.Popen('touch output')
     cidrs = make_iplist(ranges)
     print cidrs
-    with open("output1", 'w') as f:
-        for p in config.PORTS:
-            f.write(str(p) + " ")
-            for c in cidrs:
-                print "scanning " + str(c) + str(p)
-                f.write(do_zmap(p, str(c)))
-            f.write('\n')
+    dirs = {}
+    for p in config.PORTS:
+        dirs[p] = []
+        for c in cidrs:
+            dirs[p].extend(do_zmap(p, str(c)))
+    print dirs
+    #with open("output1", 'w') as f:
+    #    for p in config.PORTS:
+    #        f.write(str(p) + " ")
+    #        for c in cidrs:
+    #            print "scanning " + str(c) + str(p)
+    #            f.write(' '.join(do_zmap(p, str(c))))
+    #        f.write('\n')
 
 if __name__ == "__main__":
     print "Running Test"
