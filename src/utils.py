@@ -1,10 +1,14 @@
 import config
 
 def conversion(keydict):
+    '''
+    Exchange the key and value of a dictionary
+    :param keydict: dict. the dictionary need exchanging
+    :return valuedict: dict. the dictionary exchanged
+    '''
     valuedict = {}
     for key in keydict.keys():
         valuelist = keydict[key]
-        #print valuelist
         for element in valuelist:
             if element in valuedict:
                 valuedict[element] += [key]
