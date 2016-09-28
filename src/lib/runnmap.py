@@ -38,7 +38,7 @@ def single_run_nmap(ip, ports):
     out, _ = p.communicate()
 
     # store temporary xml file in /data/namp/ dir.
-    filename = '../../data/nmap/{}_{}'.format(ip, '-'.join(map(str,ports)))
+    filename = '../data/nmap/{}_{}'.format(ip, '-'.join(map(str,ports)))
     f = open(filename, 'w+')
     f.write(out)
     f.close()
