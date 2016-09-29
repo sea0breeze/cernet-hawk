@@ -33,7 +33,7 @@ logger.addHandler(ch)
 
 def cprint(msg, level=PRINT_LEVEL.DEBUG):
     """
-    print variable
+    use log print variable
     :param msg: the val you want to print
     :param level: enum. the level of msg
     :param color: enum. the color of msg

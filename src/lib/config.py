@@ -1,4 +1,5 @@
 import logging
+import time
 
 
 NMAP_CMD = ['-sS', '-Pn', '-sV', '-oX', '-']
@@ -7,7 +8,10 @@ PORTS = [80,
          22,
          443]
 
-# only when cpint's level >= this, will print
+# only when cpint's level >= this level, will print
 CONSOLE_PRINT = logging.INFO
 
-LOG_FILE = 'data/log/test.log'
+# log file's path and name
+LOG_FILE = 'data/log/'
+LOG_FILE += time.strftime('%Y-%m-%d',time.localtime(time.time()))
+LOG_FILE += '.log'
