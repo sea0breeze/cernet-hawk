@@ -33,10 +33,16 @@ logger.addHandler(ch)
 
 def cprint(msg, level=PRINT_LEVEL.DEBUG):
     """
-    use log print variable
+    use log to print and record variable
+    level determine whether print or log
+    level could be DEBUG, INFO, WARING, ERROR, CRITICAL
+
+    by default, record all msg to log
+    and when level >= CONSOLE_PRINT, will print
+    CONSOLE_PRINT was defined in config.py
+
     :param msg: the val you want to print
     :param level: enum. the level of msg
-    :param color: enum. the color of msg
     """
     if level == PRINT_LEVEL.DEBUG:
         logger.debug(msg)
