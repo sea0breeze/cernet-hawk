@@ -2,7 +2,7 @@
 
 import logging
 
-from enums import *
+from enums import PRINT_LEVEL
 
 
 logger = logging.getLogger("hawk_logger")
@@ -17,7 +17,7 @@ fh.setFormatter(formatter)
 logger.addHandler(fh)
 
 
-def cout(msg, level=PRINT_LEVEL.DEBUG, color):
+def cprint(msg, level=PRINT_LEVEL.DEBUG):
     """
     print variable
     :param msg: the val you want to print

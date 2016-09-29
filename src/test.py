@@ -1,4 +1,5 @@
 import lib.log as log
+from lib.enums import PRINT_LEVEL
 
 #help(log)
 
@@ -12,7 +13,4 @@ x=[11]
 print get('x')
 '''
 
-log.file_logger.debug('test')
-log.con_logger.debug('test')
-log.file_logger.info('test')
-log.con_logger.info('test')
+log.cprint("test", PRINT_LEVEL.ERROR)
