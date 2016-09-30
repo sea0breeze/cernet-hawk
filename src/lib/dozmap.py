@@ -4,6 +4,7 @@
 import subprocess
 import os
 import config
+from log import cprint
 import types
 from netaddr import IPAddress, IPNetwork, IPRange, cidr_merge
 
@@ -22,8 +23,11 @@ def do_zmap(port, range):
         print 'Zmap is not installed!'
         exit()
     cmd = [zmap_path] + config.ZMAP_CMD + ["-p", str(port), range] 
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, _ = p.communicate()
+    if _:
+        cprint(_, 'error')
+        exit()
     #print ' '.join(out.split('\n'))
     return out.split('\n')
 

@@ -5,6 +5,8 @@ import subprocess
 import os
 import config
 import xml.etree.cElementTree as ET
+from log import cprint
+
 
 def parse_nmap_xml(nmap_xml):
     tree = ET.parse(nmap_xml)
@@ -15,9 +17,15 @@ def parse_nmap_xml(nmap_xml):
             service = port.find('service').attrib
             service.pop('conf')
             service.pop('method')
-            # service info contains (name, version, extrainfo, product, devicetype, ostype...)
+            # service info contains (name, version, extrainfo, product,
+            # devicetype, ostype...)
             result[port.get('portid')] = service
+    if result:
+        cprint('Nmap xml parsed!', 'debug')
+    else:
+        cprint('Failed to parse nmap xml!', 'error')
     return result
+
 
 def single_run_nmap(ip, ports):
     """
@@ -28,21 +36,29 @@ def single_run_nmap(ip, ports):
     :param port: list. All open ports of the ip founded by zmap.
     :return: list. Further imformation about services on the host.
     """
-    os.seteuid(0) # run as root.
+    os.seteuid(0)  # run as root.
     nmap_path = subprocess.check_output(['which', 'nmap']).rstrip('\n')
     if not nmap_path:
-        print 'Nmap is not installed!'
+        cprint('Nmap is not installed!', 'error')
         exit()
     cmd = [nmap_path] + config.NMAP_CMD + [ip, '-p', ','.join(map(str, ports))]
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, _ = p.communicate()
 
+    if _:
+        cprint(_, 'error')
+        exit()
+
+    cprint('Nmap finished scanning {} on {}'.format(
+        ip, ','.join(map(str, ports))), 'info')
+
     # store temporary xml file in /data/namp/ dir.
-    filename = '../data/nmap/{}_{}'.format(ip, '-'.join(map(str,ports)))
+    filename = '../data/nmap/{}_{}'.format(ip, '-'.join(map(str, ports)))
     f = open(filename, 'w+')
     f.write(out)
     f.close()
     return parse_nmap_xml(filename)
+
 
 def run_nmap(ipdir):
     """
@@ -53,6 +69,7 @@ def run_nmap(ipdir):
     result = {}
     for ip in ipdir:
         result[ip] = single_run_nmap(ip, ipdir[ip])
+    cprint('One ip range scanning finished!', 'info')
     return result
 
 
