@@ -6,6 +6,11 @@ def ftpDetect(host, port=21, timeout=5):
     # cprint("msg","info")
     try:
         ret = {}
+        ret['host'] = host
+
+        if port != 21:
+            ret['host'] += ':' + str(port)
+
         ftp = FTP()
         ftp.connect(host, port, timeout=timeout)
 
@@ -17,12 +22,12 @@ def ftpDetect(host, port=21, timeout=5):
         flist = []
         ftp.retrlines('LIST', lambda i: flist.append(i))
         ret['flist'] = flist
+        ftp.quit()
 
     except Exception, e:
         ret['exception'] = e
 
     finally:
-        ftp.quit()
         return ret
 
 if __name__ == '__main__':
