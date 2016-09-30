@@ -1,5 +1,7 @@
 import pickle
 
+from config import PICKLE_PATH
+
 def save(val, identifier):
     """
     save variable into a file
@@ -8,7 +10,7 @@ def save(val, identifier):
     :return: bool. status of save
     """
     try:
-        output = open('data/pickle/' + identifier + '.pkl', 'wb')
+        output = open(PICKLE_PATH + identifier + '.pkl', 'wb')
         pickle.dump(val, output)
         output.close()
         return True
