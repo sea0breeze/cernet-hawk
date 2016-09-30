@@ -1,14 +1,35 @@
 from ftplib import FTP
 
-def retBanner(ip, port):
+
+def ftpDetect(host, port=21, timeout=5):
     try:
+        ret = {}
         ftp = FTP()
-        ftp.connect(ip, port)
-        banner = ftp.getwelcome()
+        ftp.connect(host, port, timeout=timeout)
+
+        ret['banner'] = ftp.getwelcome()
+
+        ftp.login()
+        ret['anonymous'] = True
+
+        flist = []
+        ftp.retrlines('LIST', lambda i: flist.append(i))
+        ret['flist'] = flist
+
+    except Exception, e:
+        ret['exception'] = e
+
+    finally:
         ftp.quit()
-        return banner
-    except:
-        return
+        return ret
 
 if __name__ == '__main__':
-    print retBanner("public.sjtu.edu.cn", 21)
+    print ftpDetect("public.sjtu.edu.cn", 21)
+    print ftpDetect("localhost", 21)
+    print ftpDetect("ftp.sjtu.edu.cn")
+    while False:
+        try:
+            print ">>>",
+            print ftpDetect(raw_input(), 21)
+        except:
+            break
