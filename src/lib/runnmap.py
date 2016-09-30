@@ -12,6 +12,13 @@ error_list = []
 nmap_path = ''
 
 def parse_nmap_xml(nmap_xml):
+    """
+    Parse the xml file and extract the imforation of web services.
+    Service info contains (name, version, extrainfo, product, devicetype, ostype...)
+    :param nmap_xml: str. The name of the xml file to parse.
+    :return: dict. Use open port number as key and concrete infomation of the web service as value.
+    """
+
     try:
         tree = ET.parse(nmap_xml)
         root = tree.getroot()
@@ -21,14 +28,13 @@ def parse_nmap_xml(nmap_xml):
                 service = port.find('service').attrib
                 service.pop('conf')
                 service.pop('method')
-                # service info contains (name, version, extrainfo, product,
-                # devicetype, ostype...)
-                result[port.get('portid')] = service
+                result[int(port.get('portid'))] = service
     except Exception as e:
         cprint(e, 'error')
         error_list.append(nmap_xml)
         return None
 
+    # What if we get nothing from the xml...
     if result:
         cprint('Nmap xml parsed!', 'debug')
     else:
@@ -59,10 +65,10 @@ def single_run_nmap(ip, ports):
     cprint('Start scanning {} with nmap'.format(ip), 'info')
     cmd = [nmap_path] + config.NMAP_CMD + [ip, '-p', ','.join(map(str, ports))]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out, _ = p.communicate()
+    out, error = p.communicate()
 
-    if _:
-        cprint(_, 'error')
+    if error:
+        cprint(error, 'error')
 
     cprint('Nmap finished scanning {} on {}'.format(
         ip, ','.join(map(str, ports))), 'info')
