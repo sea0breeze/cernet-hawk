@@ -29,7 +29,7 @@ def do_zmap(port, range):
         cprint(_, 'error')
         exit()
     #print ' '.join(out.split('\n'))
-    return out.split('\n')
+    return out.strip().split('\n')
 
 
 def make_iplist(l):

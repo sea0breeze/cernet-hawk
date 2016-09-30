@@ -22,7 +22,7 @@ def get(identifier):
     :param identifier: str. the identifier of variable
     :return: variable
     """
-    pkl_file = open('data/pickle/' + name + '.pkl', 'rb')
+    pkl_file = open('data/pickle/' + identifier + '.pkl', 'rb')
     data = pickle.load(pkl_file)
     pkl_file.close()
     return data
