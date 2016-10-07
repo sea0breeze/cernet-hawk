@@ -17,16 +17,18 @@ def do_zmap(port, range):
     :param range: str. ip addresses range in CIDR block notation
     :return: list. all ips in the range that zmap deem has port open
     """
+    cprint("Do zmap...port " + str(port) + " , range " + str(range), "debug")
     os.seteuid(0)  # run as root.
     zmap_path = subprocess.check_output(['which', 'zmap']).rstrip('\n')
     if not zmap_path:
         print 'Zmap is not installed!'
         exit()
     cmd = [zmap_path] + config.ZMAP_CMD + ["-p", str(port), range] 
+    cprint("start process: " + str(cmd) , "debug")
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    out, _ = p.communicate()
-    if _:
-        cprint(_, 'error')
+    out, err = p.communicate()
+    if err:
+        cprint(err, 'error')
         exit()
     #print ' '.join(out.split('\n'))
     return out.strip().split('\n')
