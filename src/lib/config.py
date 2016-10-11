@@ -21,5 +21,5 @@ LOG_FILE = APP_PATH + '/src/data/log/'
 LOG_FILE += time.strftime('%Y-%m-%d',time.localtime(time.time()))
 LOG_FILE += '.log'
 
-#PICKLE_PATH = APP_PATH + '/src/data/pickle/'
-PICKLE_PATH = '/usr/local/bin/pickle'
+PICKLE_PATH = APP_PATH + '/src/data/pickle/'
+# PICKLE_PATH = '/usr/local/bin/pickle'
