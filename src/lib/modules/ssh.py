@@ -1,7 +1,8 @@
 import socket
 
 
-def retBanner(ip, port):
+def sshDetect(ip, port):
+    # not complete yet
     try:
         socket.setdefaulttimeout(2)
         s = socket.socket()
@@ -15,4 +16,4 @@ def retBanner(ip, port):
         return
 
 if __name__ == '__main__':
-    print retBanner("ip", 22)
+    print sshDetect("ip", 22)
