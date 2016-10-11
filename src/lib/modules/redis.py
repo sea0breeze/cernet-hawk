@@ -1,5 +1,6 @@
 import redis
 
+
 def redisDetect(host, port=6379):
     # this redis code is not complete
     # redis could be hacked if not config well
