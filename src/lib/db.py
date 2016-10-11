@@ -2,6 +2,7 @@ import pickle
 
 from config import PICKLE_PATH
 
+
 def save(val, identifier):
     """
     save variable into a file

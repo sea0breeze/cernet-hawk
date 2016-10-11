@@ -11,6 +11,7 @@ from db import save
 error_list = []
 nmap_path = ''
 
+
 def parse_nmap_xml(nmap_xml):
     """
     Parse the xml file and extract the imforation of web services.
@@ -57,7 +58,8 @@ def single_run_nmap(ip, ports):
     global nmap_path
 
     filename = 'data/nmap/{}_{}'.format(ip, '-'.join(map(str, ports)))
-    if os.path.exists(filename): # Save time while debugging by not scanning ip that has been scanned.
+    # Save time while debugging by not scanning ip that has been scanned.
+    if os.path.exists(filename):
         cprint('Previous scan result exists for {}, just parse the xml.'.format(ip), 'info')
         return parse_nmap_xml(filename)
 

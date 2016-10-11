@@ -23,14 +23,14 @@ def do_zmap(port, range):
     if not zmap_path:
         print 'Zmap is not installed!'
         exit()
-    cmd = [zmap_path] + config.ZMAP_CMD + ["-p", str(port), range] 
-    cprint("start process: " + str(cmd) , "debug")
+    cmd = [zmap_path] + config.ZMAP_CMD + ["-p", str(port), range]
+    cprint("start process: " + str(cmd), "debug")
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = p.communicate()
     if err:
         cprint(err, 'error')
         exit()
-    #print ' '.join(out.split('\n'))
+    # print ' '.join(out.split('\n'))
     return out.strip().split('\n')
 
 
@@ -45,9 +45,10 @@ def make_iplist(l):
         if type(ip) == types.TupleType:
             r = IPRange(ip[0], ip[1])
             re.extend(r.cidrs())
-        else: # ip is a str. e.g. '192.0.3.1'
+        else:  # ip is a str. e.g. '192.0.3.1'
             re.append(IPAddress(ip))
     return cidr_merge(re)
+
 
 def zmap_range(ranges):
     #subprocess.Popen('touch output')
@@ -59,7 +60,7 @@ def zmap_range(ranges):
         for c in cidrs:
             dirs[p].extend(do_zmap(p, str(c)))
     return dirs
-    #with open("output1", 'w') as f:
+    # with open("output1", 'w') as f:
     #    for p in config.PORTS:
     #        f.write(str(p) + " ")
     #        for c in cidrs:
@@ -70,6 +71,7 @@ def zmap_range(ranges):
 if __name__ == "__main__":
     print "Running Test"
     #test_range1 =  [('192.168.0.1', '192.168.0.255'), '192.168.0.3']
-    test_range2 =  [('202.120.0.0', '202.120.63.255')] # 虽然提供了多个口的功能,但最好还是CIDR尽量少,不然很慢.
+    # 虽然提供了多个口的功能,但最好还是CIDR尽量少,不然很慢.
+    test_range2 = [('202.120.0.0', '202.120.63.255')]
     # TODO: 用一个CIDR的SUPERSET涵盖所有IP,然后再从结果中去掉不在范围内的IP
     res = zmap_range(test_range2)

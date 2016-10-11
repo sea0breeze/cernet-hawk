@@ -48,6 +48,4 @@ def cprint(msg, level="debug"):
         logger.critical(msg)
     else:
         raise Exception("Error log level")
-    #print msg
-
-
+    # print msg
