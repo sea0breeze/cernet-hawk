@@ -1,3 +1,0 @@
-python lib:
-    redis
-    pymongo
