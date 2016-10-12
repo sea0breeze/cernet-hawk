@@ -1,7 +1,7 @@
 import socket
 
 
-def sshDetect(ip, port):
+def ssh_detect(ip, port):
     # not complete yet
     try:
         socket.setdefaulttimeout(2)

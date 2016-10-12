@@ -2,7 +2,7 @@ from ftplib import FTP
 
 from lib.log import cprint
 
-def ftpDetect(host, port=21, timeout=5):
+def ftp_detect(host, port=21, timeout=5):
     # cprint("msg","info")
     try:
         ret = {}
