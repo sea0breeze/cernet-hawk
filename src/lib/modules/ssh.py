@@ -1,5 +1,9 @@
 import socket
 
+# refer:
+# https://stribika.github.io/2015/01/04/secure-secure-shell.html
+# http://blog.csdn.net/macrossdzh/article/details/5691924
+# RFC-4253
 
 def ssh_detect(ip, port):
     # not complete yet
