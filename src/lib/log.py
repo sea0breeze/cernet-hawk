@@ -8,6 +8,8 @@ from config import disableColor
 
 from color import colorizing_stream_handler
 
+formatter_str = '[%(asctime)s] [%(levelname)s] %(message)s'
+color_formatter_str = '[%(asctime)s] $CSI[%(levelname)s]$RESET %(message)s'
 
 logger = logging.getLogger("hawk_logger")
 
@@ -18,14 +20,16 @@ fh.setLevel(logging.DEBUG)
 
 if disableColor:
     ch = logging.StreamHandler()
+    chformatter = logging.Formatter(formatter_str)
 else:
     ch = colorizing_stream_handler()
+    chformatter = logging.Formatter(color_formatter_str)
 
 ch.setLevel(CONSOLE_PRINT)
 
-formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s')
+formatter = logging.Formatter(formatter_str)
 fh.setFormatter(formatter)
-ch.setFormatter(formatter)
+ch.setFormatter(chformatter)
 
 logger.addHandler(fh)
 logger.addHandler(ch)

@@ -16,33 +16,42 @@ class colorizing_stream_handler(logging.StreamHandler):
         'white': 7,
     }
 
+    effect_map = {
+        'default': '0',
+        'highlight': '1',
+        'underline': '4',
+        'blink': '5',
+        'inverse': '7',
+        'invisible': '8'
+    }
+
     # levels to (background, foreground, bold/intense)
     level_map = {
-        logging.DEBUG: (None, 'cyan', False),
-        logging.INFO: (None, 'green', False),
-        logging.WARNING: (None, 'yellow', False),
-        logging.ERROR: (None, 'red', False),
-        logging.CRITICAL: ('red', 'white', False)
+        logging.DEBUG: (None, 'cyan', None),
+        logging.INFO: (None, 'green', None),
+        logging.WARNING: (None, 'yellow', None),
+        logging.ERROR: (None, 'red', None),
+        logging.CRITICAL: ('red', 'white', None)
     }
 
     csi = '\x1b['
     reset = '\x1b[0m'
 
-    levels = ["INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"]
-
     def colorize(self, message, record):
         if record.levelno in self.level_map:
-            bg, fg, bold = self.level_map[record.levelno]
-            params = []
+            bg, fg, effect = self.level_map[record.levelno]
+            params = self.csi
 
             if bg in self.color_map:
-                params.append(str(self.color_map[bg] + 40))
+                params += str(self.color_map[bg] + 40) + ';'
 
             if fg in self.color_map:
-                params.append(str(self.color_map[fg] + 30))
+                params += str(self.color_map[fg] + 30) + ';'
 
-            if bold:
-                params.append('1')
+            if effect in self.effect_map:
+                params += self.effect_map[effect] + ';'
+
+            params += 'm'
 
             if params and message:
                 if message.lstrip() != message:
@@ -53,14 +62,9 @@ class colorizing_stream_handler(logging.StreamHandler):
 
                 # message = "%s%s" % (prefix, ''.join((self.csi, ';'.join(params),
                     # 'm', message, self.reset)))
+                message = message.replace("$CSI", params)
+                message = message.replace("$RESET", self.reset)
 
-                for i in self.levels:
-                    message = message.replace(
-                        "[" + i + "]",
-                        ''.join((self.csi,
-                                 ';'.join(params),
-                                 'm', "[" + i + "]",
-                                 self.reset)))
         return message
 
     def format(self, record):
