@@ -1,6 +1,8 @@
 import logging
 
 # refer to sqlmap third-party
+
+
 class colorizing_stream_handler(logging.StreamHandler):
     # color names to indices
     color_map = {
@@ -26,6 +28,8 @@ class colorizing_stream_handler(logging.StreamHandler):
     csi = '\x1b['
     reset = '\x1b[0m'
 
+    levels = ["INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"]
+
     def colorize(self, message, record):
         if record.levelno in self.level_map:
             bg, fg, bold = self.level_map[record.levelno]
@@ -47,9 +51,16 @@ class colorizing_stream_handler(logging.StreamHandler):
                 else:
                     prefix = ""
 
-                message = "%s%s" % (prefix, ''.join((self.csi, ';'.join(params),
-                                   'm', message, self.reset)))
+                # message = "%s%s" % (prefix, ''.join((self.csi, ';'.join(params),
+                    # 'm', message, self.reset)))
 
+                for i in self.levels:
+                    message = message.replace(
+                        "[" + i + "]",
+                        ''.join((self.csi,
+                                 ';'.join(params),
+                                 'm', "[" + i + "]",
+                                 self.reset)))
         return message
 
     def format(self, record):
