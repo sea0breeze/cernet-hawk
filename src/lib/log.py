@@ -4,6 +4,10 @@ import logging
 
 from config import CONSOLE_PRINT
 from config import LOG_FILE
+from config import disableColor
+
+from color import colorizing_stream_handler
+
 
 logger = logging.getLogger("hawk_logger")
 
@@ -12,7 +16,11 @@ logger.setLevel(logging.DEBUG)
 fh = logging.FileHandler(LOG_FILE)
 fh.setLevel(logging.DEBUG)
 
-ch = logging.StreamHandler()
+if disableColor:
+    ch = logging.StreamHandler()
+else:
+    ch = colorizing_stream_handler()
+
 ch.setLevel(CONSOLE_PRINT)
 
 formatter = logging.Formatter('[%(asctime)s] [%(levelname)s] %(message)s')

@@ -11,7 +11,8 @@ PORTS = [80,
          443]
 
 # only when cpint's level >= this level, will print
-CONSOLE_PRINT = logging.INFO
+CONSOLE_PRINT = logging.DEBUG
+# CONSOLE_PRINT = logging.INFO
 
 APP_NAME = 'cernet-hawk'
 APP_PATH = os.getcwd()
@@ -24,3 +25,6 @@ LOG_FILE += '.log'
 
 PICKLE_PATH = APP_PATH + '/src/data/pickle/'
 # PICKLE_PATH = '/usr/local/bin/pickle'
+
+# disableColor = True
+disableColor = False
