@@ -3,10 +3,11 @@ import time
 import os
 
 NMAP_CMD = ['-sS', '-Pn', '-sV', '-oX', '-']
-ZMAP_CMD = ['-v', '0', '-B', '2M']  # silent
+ZMAP_CMD = ['-q','-v', '0', '-B', '2M']  # silent
 PORTS = [80,
          21,
          22,
+         25,
          443]
 
 # only when cpint's level >= this level, will print
