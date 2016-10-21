@@ -24,7 +24,10 @@ def parse_nmap_xml(nmap_xml):
         tree = ET.parse(nmap_xml)
         root = tree.getroot()
         result = {}
+        filter_flag = True
         for port in root.find('host').find('ports').findall('port'):
+            if port.find('state').get('state') not in  ('filtered', 'closed'):
+                filter_flag = False
             if port.find('state').get('state') == 'open':
                 service = port.find('service').attrib
                 service.pop('conf')
@@ -36,11 +39,15 @@ def parse_nmap_xml(nmap_xml):
         return None
 
     # What if we get nothing from the xml...
-    if result:
-        cprint('Nmap xml parsed!', 'debug')
+    if not result:
+        if filter_flag:
+            cprint('All open ports detected by zmap are actually filtered or closed!', 'info')
+            return None
+        else:
+            cprint('Failed to parse nmap xml!', 'error')
+            error_list.append(nmap_xml)
     else:
-        cprint('Failed to parse nmap xml!', 'error')
-        error_list.append(nmap_xml)
+        cprint('Nmap xml parsed!', 'debug')
 
     return result
 
@@ -97,7 +104,9 @@ def run_nmap(ipdir):
 
     result = {}
     for ip in ipdir:
-        result[ip] = single_run_nmap(ip, ipdir[ip])
+        tmp_res = single_run_nmap(ip, ipdir[ip])
+        if tmp_res != None:
+            result[ip] = tmp_res
 
     if error_list:
         cprint('Scanning finished, but some error occurs while nmap scanning!', 'error')
