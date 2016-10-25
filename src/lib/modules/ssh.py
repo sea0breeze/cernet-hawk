@@ -6,7 +6,8 @@ from cStringIO import StringIO
 # refer:
 # https://stribika.github.io/2015/01/04/secure-secure-shell.html
 # http://blog.csdn.net/macrossdzh/article/details/5691924
-# RFC-4253
+# http://www.iodigitalsec.com/ssh-fingerprint-and-hostkey-with-paramiko-in-python/
+# RFC-4251~4
 
 class sshDetect:
     '''
