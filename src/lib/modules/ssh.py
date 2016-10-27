@@ -1,7 +1,7 @@
 import socket
 import struct
 from cStringIO import StringIO
-from paramiko import Transport
+# from paramiko import Transport
 
 from Detect import Detect
 from attrDict import attrDict
@@ -26,26 +26,25 @@ class sshDetect(Detect):
             socket.setdefaulttimeout(2)
             s = socket.socket()
             s.connect((ip, port))
-            self.banner = s.recv(50).strip('\r\n').split(' ')
+            banner = s.recv(50).strip('\r\n').split(' ')
 
             try:
-                self.data['version'] = self.banner[0]
-                self.data['os'] = self.banner[1]
+                self.data['version'] = banner[0]
+                self.data['os'] = banner[1]
             except IndexError:
                 pass
 
-            s.send('{}\r\n'.format(self.banner[0]))
+            s.send('{}\r\n'.format(banner[0]))
             self._raw_recv = s.recv(2048)
 
-            tran = Transport(s)
-            self.ssh_key = tran.get_remote_server_key()
-            tran.close()
+            # tran = Transport(s)
+            # self.ssh_key = tran.get_remote_server_key()
+            # tran.close()
 
             s.close()
             self.parse_raw_data()
         except Exception as e:
-            print e
-            # cprint(str(e), 'error')
+            cprint(str(e), 'error')
             return
 
     def parse_raw_data(self):
