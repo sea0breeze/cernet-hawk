@@ -21,7 +21,7 @@ class sshDetect(Detect):
 
     '''
     # not complete yet
-    def __init__(self, ip, port, timeout = 2):
+    def __init__(self, ip, port = 22, timeout = 2):
         super(sshDetect, self).__init__(ip, port)
         try:
             socket.setdefaulttimeout(2)
