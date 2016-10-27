@@ -1,5 +1,6 @@
 import socket
 import struct
+from pprint import pprint
 from cStringIO import StringIO
 # from paramiko import Transport
 
@@ -42,12 +43,12 @@ class sshDetect(Detect):
             # tran.close()
 
             s.close()
-            self.parse_raw_data()
+            self._parse_raw_data()
         except Exception as e:
             cprint(str(e), 'error')
             return
 
-    def parse_raw_data(self):
+    def _parse_raw_data(self):
         stream = StringIO(self._raw_recv)
         packet_length = struct.unpack('>i', stream.read(4))[0]
         padding_length = ord(stream.read(1))
@@ -84,5 +85,5 @@ class sshDetect(Detect):
 
 
 if __name__ == '__main__':
-    ssh_test = sshDetect("202.112.26.119", 22)
-    print ssh_test.data
+    ssh_test = sshDetect("0.0.0.0", 22)
+    pprint(ssh_test.data)
