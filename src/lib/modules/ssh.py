@@ -5,7 +5,6 @@ from cStringIO import StringIO
 # from paramiko import Transport
 
 from Detect import Detect
-from attrDict import attrDict
 # from lib.log import cprint
 
 # refer:
@@ -30,8 +29,8 @@ class sshDetect(Detect):
             banner = s.recv(50).strip('\r\n').split(' ')
 
             try:
-                self.data['version'] = banner[0]
-                self.data['os'] = banner[1]
+                self.data.version = banner[0]
+                self.data.os = banner[1]
             except IndexError:
                 pass
 
@@ -55,35 +54,35 @@ class sshDetect(Detect):
         message_code = ord(stream.read(1))
         cookie = stream.read(16)
         kex_algo_length = struct.unpack('>i', stream.read(4))[0]
-        self.data['kex_algo'] = stream.read(kex_algo_length).split(',')
+        self.data.kex_algo = stream.read(kex_algo_length).split(',')
         server_host_key_algo_length = struct.unpack('>i', stream.read(4))[0]
-        self.data['server_host_key_algo'] = stream.read(server_host_key_algo_length).split(',')
+        self.data.server_host_key_algo = stream.read(server_host_key_algo_length).split(',')
 
         enc_algo_client_to_server_length = struct.unpack('>i', stream.read(4))[0]
-        self.data['enc_algo_client_to_server'] = stream.read(enc_algo_client_to_server_length).split(',')
+        self.data.enc_algo_client_to_server = stream.read(enc_algo_client_to_server_length).split(',')
 
         enc_algo_server_to_client_length = struct.unpack('>i', stream.read(4))[0]
-        self.data['enc_algo_server_to_client'] = stream.read(enc_algo_server_to_client_length).split(',')
+        self.data.enc_algo_server_to_client = stream.read(enc_algo_server_to_client_length).split(',')
 
         mac_algo_client_to_server_length = struct.unpack('>i', stream.read(4))[0]
-        self.data['mac_algo_client_to_server'] = stream.read(mac_algo_client_to_server_length).split(',')
+        self.data.mac_algo_client_to_server = stream.read(mac_algo_client_to_server_length).split(',')
 
         mac_algo_server_to_client_length = struct.unpack('>i', stream.read(4))[0]
-        self.data['mac_algo_server_to_client'] = stream.read(mac_algo_server_to_client_length).split(',')
+        self.data.mac_algo_server_to_client = stream.read(mac_algo_server_to_client_length).split(',')
 
         compress_algo_client_to_server_length = struct.unpack('>i', stream.read(4))[0]
-        self.data['compress_algo_client_to_server'] = stream.read(compress_algo_client_to_server_length).split(',')
+        self.data.compress_algo_client_to_server = stream.read(compress_algo_client_to_server_length).split(',')
 
         compress_algo_server_to_client_length = struct.unpack('>i', stream.read(4))[0]
-        self.data['compress_algo_server_to_client'] = stream.read(compress_algo_server_to_client_length).split(',')
+        self.data.compress_algo_server_to_client = stream.read(compress_algo_server_to_client_length).split(',')
 
         lang_client_to_server_length = struct.unpack('>i', stream.read(4))[0]
-        self.data['lang_client_to_server'] = stream.read(lang_client_to_server_length).split(',')
+        self.data.lang_client_to_server = stream.read(lang_client_to_server_length).split(',')
 
         lang_server_to_client_length = struct.unpack('>i', stream.read(4))[0]
-        self.data['lang_server_to_client'] = stream.read(lang_server_to_client_length).split(',')
+        self.data.lang_server_to_client = stream.read(lang_server_to_client_length).split(',')
 
 
 if __name__ == '__main__':
-    ssh_test = sshDetect("0.0.0.0", 22)
+    ssh_test = sshDetect("202.112.26.119", 22)
     pprint(ssh_test.data)

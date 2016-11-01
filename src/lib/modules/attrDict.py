@@ -4,7 +4,7 @@ import copy
 import types
 
 
-class attrDict(dict):
+class AttribDict(dict):
 
     """
     this is a simple expand of dict
