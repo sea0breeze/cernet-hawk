@@ -1,6 +1,5 @@
 import socket
 import struct
-from pprint import pprint
 from cStringIO import StringIO
 # from paramiko import Transport
 
@@ -85,4 +84,4 @@ class sshDetect(Detect):
 
 if __name__ == '__main__':
     ssh_test = sshDetect("202.112.26.119", 22)
-    pprint(ssh_test.data)
+    ssh_test.pprint()
