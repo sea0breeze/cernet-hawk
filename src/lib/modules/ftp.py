@@ -1,39 +1,41 @@
 from ftplib import FTP
 
-from lib.log import cprint
+# from lib.log import cprint
+from Detect import Detect
 
-def ftp_detect(host, port=21, timeout=5):
-    # cprint("msg","info")
-    try:
-        ret = {}
-        ret['host'] = host
 
-        if port != 21:
-            ret['host'] += ':' + str(port)
+class ftpDetect(Detect):
 
-        ftp = FTP()
-        ftp.connect(host, port, timeout=timeout)
+    def __init__(self, ip, port=53, timeout=2):
 
-        ret['banner'] = ftp.getwelcome()
+        super(ftpDetect, self).__init__(ip, port)
 
-        ftp.login()
-        ret['anonymous'] = True
+        # cprint("msg","info")
+        try:
+            if port != 21:
+                ip += ':' + str(port)
 
-        flist = []
-        ftp.retrlines('LIST', lambda i: flist.append(i))
-        ret['flist'] = flist
-        ftp.quit()
+            ftp = FTP()
+            ftp.connect(ip, port, timeout=timeout)
 
-    except Exception, e:
-        ret['exception'] = e
+            self.data.banner = ftp.getwelcome()
 
-    finally:
-        return ret
+            ftp.login()
+            self.data.anonymous = True
+
+            flist = []
+            ftp.retrlines('LIST', lambda i: flist.append(i))
+            self.data.flist = flist
+            ftp.quit()
+
+        except Exception, e:
+            self.data.exception = e
+
 
 if __name__ == '__main__':
-    print ftpDetect("public.sjtu.edu.cn", 21)
-    print ftpDetect("localhost", 21)
-    print ftpDetect("ftp.sjtu.edu.cn")
+    ftpDetect("public.sjtu.edu.cn", 21).pprint()
+    ftpDetect("localhost", 21).pprint()
+    ftpDetect("ftp.sjtu.edu.cn").pprint()
     while False:
         try:
             print ">>>",
