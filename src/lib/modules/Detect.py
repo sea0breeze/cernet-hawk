@@ -7,16 +7,15 @@ class Detect(object):
     """
     base class of Detect
     """
-    def __init__(self, ip, port, type):
+    def __init__(self, ip, port, v):
         self.data = AttribDict()
         self.data.ip = ip
         self.data.port = port
-        self.type = type
+        self.type = v
 
     def pprint(self, stream=None, indent=1, width=80, depth=None):
         pprint(self.data, stream, indent, width, depth)
 
     def save(self):
-        if self.db is None:
-            self.db = Mongo(type)
-        self.db.insert(self.data) 
+        self.db = Mongo(self.type)
+        self.db.insert(self.data)

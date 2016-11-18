@@ -29,7 +29,7 @@ class ftpDetect(Detect):
             ftp.quit()
 
         except Exception, e:
-            self.data.exception = e
+            self.data.exception = str(e)
 
 
 if __name__ == '__main__':
