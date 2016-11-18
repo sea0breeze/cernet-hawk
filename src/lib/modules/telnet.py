@@ -20,7 +20,7 @@ class telnetDetect:
     def __init__(self, ip, port=53):
         # not complete yet
         try:
-            tn = telnetlib.Telnet(host=ip, port=port)
+            tn = telnetlib.Telnet(host=ip, port=port, 'telnet')
         except Exception as e:
             # cprint(str(e), 'error')
             tn.close()

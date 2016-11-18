@@ -10,7 +10,7 @@ class mongoDetect(Detect):
     def __init__(self, ip, port = 27017):
 
         try:
-            conn = pymongo.MongoClient(ip, port)
+            conn = pymongo.MongoClient(ip, port, 'mongo')
             dbname = conn.database_names()
             return True
         except Exception as e:

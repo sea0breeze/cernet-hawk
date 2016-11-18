@@ -14,7 +14,7 @@ class dnsDetect(Detect):
     # not complete yet
 
     def __init__(self, ip, port = 53, timeout = 2):
-        super(dnsDetect, self).__init__(ip, port)
+        super(dnsDetect, self).__init__(ip, port, 'dns')
         try:
             socket.setdefaulttimeout(2)
             s = socket.socket()

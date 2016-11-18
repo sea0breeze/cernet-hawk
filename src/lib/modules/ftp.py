@@ -8,7 +8,7 @@ class ftpDetect(Detect):
 
     def __init__(self, ip, port=53, timeout=2):
 
-        super(ftpDetect, self).__init__(ip, port)
+        super(ftpDetect, self).__init__(ip, port, 'ftp')
 
         # cprint("msg","info")
         try:

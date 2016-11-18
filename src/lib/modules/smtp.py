@@ -19,7 +19,7 @@ class smtpDetect:
         # not complete yet
         try:
             server = smtplib.SMTP()
-            server.connect(ip, str(port))
+            server.connect(ip, str(port), 'smtp')
         except Exception as e:
             # cprint(str(e), 'error')
             # print(str(e), 'error')

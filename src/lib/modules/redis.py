@@ -10,7 +10,7 @@ class redisDetect(Detect):
 
     def __init__(self, ip, port=6379, timeout=2):
 
-        super(redisDetect, self).__init__(ip, port)
+        super(redisDetect, self).__init__(ip, port, 'redis')
 
         try:
             r = redis.StrictRedis(host=host, port=6379, db=0)
