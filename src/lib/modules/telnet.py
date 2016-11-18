@@ -23,7 +23,6 @@ class telnetDetect:
             tn = telnetlib.Telnet(host=ip, port=port)
         except Exception as e:
             # cprint(str(e), 'error')
-            # print(str(e), 'error')
             tn.close()
         finally:
             return

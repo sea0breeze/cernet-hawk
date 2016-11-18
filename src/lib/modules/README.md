@@ -1,5 +1,12 @@
-every module should be named as *Detect
+every module should be wirte as below
 
-parameter should be host, port, timeout
+~~~
 
-return type should be json/dict
+from Detect import Detect
+
+class xxxDetect(Detect):
+
+    def __init__(self, ip, port, timeout):
+        # init at here
+        super(xxxDetect, self).__init__(ip, port)
+~~~
