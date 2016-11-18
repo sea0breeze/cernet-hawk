@@ -1,14 +1,13 @@
 from pymongo import MongoClient
-import json
 
 class Mongo(object):
     """
     MongoDB Client
     """
-    def __init__(self):
+    def __init__(self, table):
         super(Mongo, self).__init__()
         self.conn = MongoClient('localhost')
-        self.col = conn.hawk.table
+        self.col = self.conn.hawk[table]
 
     def insert(self, data):
         self.col.insert(data)
@@ -17,7 +16,7 @@ class Mongo(object):
         self.col.find(index)
 
 if __name__ == '__main__':
-    m = Mongo()
-    m.insert({'data.json': 'test'})
-    m.find('url')
+    m = Mongo('ftp')
+    m.insert({'datajson': 'test'})
+    print m.find({})
 
