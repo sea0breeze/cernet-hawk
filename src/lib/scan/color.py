@@ -1,4 +1,5 @@
 import logging
+import platform
 
 # refer to sqlmap third-party
 
@@ -34,8 +35,8 @@ class colorizing_stream_handler(logging.StreamHandler):
         logging.CRITICAL: ('red', 'white', None)
     }
 
-    csi = '\x1b['
-    reset = '\x1b[0m'
+    csi = ['\033[','\x1b['][platform..system() == "Windows"]
+    reset = ['\033[0m', '\x1b[0m'][platform..system() == "Windows"]
 
     def colorize(self, message, record):
         if record.levelno in self.level_map:
