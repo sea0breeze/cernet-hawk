@@ -1,17 +1,6 @@
 import logging
-import platform
 
 # refer to sqlmap third-party
-
-if platform.system() == "Windows":
-    _csi = '\x1b['
-    _reset = '\x1b[0m'
-elif platform.system() == "Linux":
-    _csi = '\033['
-    _reset = '\033[0m'
-else: 
-    _csi = '\033['
-    _reset = '\033[0m'
 
 class colorizing_stream_handler(logging.StreamHandler):
     # color names to indices
@@ -44,15 +33,14 @@ class colorizing_stream_handler(logging.StreamHandler):
         logging.CRITICAL: ('red', 'white', None)
     }
 
-    csi = _csi
-    reset = _reset
+    csi = '\x1b['
+    reset = '\x1b[0m'
 
 
     def colorize(self, message, record):
         if record.levelno in self.level_map:
             bg, fg, effect = self.level_map[record.levelno]
             params = self.csi
-
             if bg in self.color_map:
                 params += str(self.color_map[bg] + 40) + ';'
 
@@ -62,8 +50,9 @@ class colorizing_stream_handler(logging.StreamHandler):
             if effect in self.effect_map:
                 params += self.effect_map[effect] + ';'
 
+            if params[-1] == ";":
+                params = params[:-1]
             params += 'm'
-
             if params and message:
                 if message.lstrip() != message:
                     prefix = re.search(r"\s+", message).group(0)
