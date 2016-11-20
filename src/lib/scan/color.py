@@ -3,6 +3,15 @@ import platform
 
 # refer to sqlmap third-party
 
+if platform.system() == "Windows":
+    _csi = '\x1b['
+    _reset = '\x1b[0m'
+elif platform.system() == "Linux":
+    _csi = '\033['
+    _reset = '\033[0m'
+else: 
+    _csi = '\033['
+    _reset = '\033[0m'
 
 class colorizing_stream_handler(logging.StreamHandler):
     # color names to indices
@@ -35,15 +44,9 @@ class colorizing_stream_handler(logging.StreamHandler):
         logging.CRITICAL: ('red', 'white', None)
     }
 
-    if platform.system() == "Windows":
-        csi = '\x1b['
-        reset = '\x1b[0m'
-    elif platform.system() == "Linux":
-        csi = '\033['
-        reset = '\033[0m'
-    else: 
-        csi = '\033['
-        reset = '\033[0m'
+    csi = _csi
+    reset = _reset
+
 
     def colorize(self, message, record):
         if record.levelno in self.level_map:
@@ -78,3 +81,6 @@ class colorizing_stream_handler(logging.StreamHandler):
     def format(self, record):
         message = logging.StreamHandler.format(self, record)
         return self.colorize(message, record)
+
+if __name__ == '__main__':
+    main()
