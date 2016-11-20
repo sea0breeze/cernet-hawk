@@ -1,10 +1,10 @@
 import socket
 import struct
 from cStringIO import StringIO
-# from paramiko import Transport
+from paramiko import Transport
 
 from Detect import Detect
-# from lib.log import cprint
+from lib.scan.log import cprint
 
 # refer:
 # https://stribika.github.io/2015/01/04/secure-secure-shell.html
@@ -14,7 +14,7 @@ from Detect import Detect
 
 class sshDetect(Detect):
     '''
-    :str. banner
+    :return str. banner
     :
 
     '''
@@ -36,12 +36,23 @@ class sshDetect(Detect):
             s.send('{}\r\n'.format(banner[0]))
             self._raw_recv = s.recv(2048)
 
-            # tran = Transport(s)
-            # self.ssh_key = tran.get_remote_server_key()
-            # tran.close()
-
             s.close()
             self._parse_raw_data()
+
+            # use paramiko to get hostkey because of lazyless...
+            s = socket.socket()
+            s.connect((ip, port))
+            tran = Transport(s)
+            tran.start_client()
+            self.ssh_key = tran.get_remote_server_key()
+            public_key = self.ssh_key.public_numbers
+            try:
+                self.data.rsa_public_key = (str(public_key.e), str(public_key.n))
+            except AttributeError:
+                cprint('This host is not using rsa for ssh!', 'error')
+
+            tran.close()
+
         except Exception as e:
             cprint(str(e), 'error')
             return
