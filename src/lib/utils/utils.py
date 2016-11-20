@@ -1,6 +1,3 @@
-import config
-
-
 def conversion(keydict):
     '''
     Exchange the key and value of a dictionary
