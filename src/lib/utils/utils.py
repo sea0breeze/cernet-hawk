@@ -14,6 +14,18 @@ def conversion(keydict):
                 valuedict[element] = [key]
     return valuedict
 
+def parseUrl(url):
+
+    if not url.startswith("http://") or url.startswith("https://"):
+        if ':443' in url:
+            url = "https://" + url
+        else:
+            url = "http://" + url
+
+    url = (url + '/') if url[-1] != '/' else url
+
+    return url
+
 
 if __name__ == "__main__":
     keydict = {'80': ['202.120.61.34', '202.120.24.151',
