@@ -2,6 +2,7 @@ import logging
 
 # refer to sqlmap third-party
 
+
 class colorizing_stream_handler(logging.StreamHandler):
     # color names to indices
     color_map = {
@@ -35,7 +36,6 @@ class colorizing_stream_handler(logging.StreamHandler):
 
     csi = '\x1b['
     reset = '\x1b[0m'
-
 
     def colorize(self, message, record):
         if record.levelno in self.level_map:
