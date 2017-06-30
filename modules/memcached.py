@@ -1,10 +1,10 @@
 # refer:
 
-from Detect import Detect
+from common.classes.PortBase import PortBase
 
 from lib.log import cprint
 
-class memcachedDetect(Detect):
+class memcachedDetect(PortBase):
 
     def __init__(self, ip, port):
         try:

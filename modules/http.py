@@ -5,10 +5,10 @@ from whois import whois
 
 from lib.utils.utils import parseUrl
 from lib.scan.log import cprint
-from Detect import Detect
+from common.classes.PortBase import PortBase
 
 
-class httpDetect(Detect):
+class httpDetect(PortBase):
 
     def __init__(self, ip, port=80):
         # init at here

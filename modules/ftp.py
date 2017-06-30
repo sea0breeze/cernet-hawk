@@ -1,10 +1,10 @@
 from ftplib import FTP
 
 # from lib.log import cprint
-from Detect import Detect
+from common.classes.PortBase import PortBase
 
 
-class ftpDetect(Detect):
+class ftpDetect(PortBase):
 
     def __init__(self, ip, port=53, timeout=2):
 

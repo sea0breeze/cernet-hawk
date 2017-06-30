@@ -4,9 +4,9 @@
 
 import redis
 
-from Detect import Detect
+from common.classes.PortBase import PortBase
 
-class redisDetect(Detect):
+class redisDetect(PortBase):
 
     def __init__(self, ip, port=6379, timeout=2):
 

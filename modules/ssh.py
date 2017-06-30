@@ -3,7 +3,7 @@ import struct
 from cStringIO import StringIO
 from paramiko import Transport
 
-from Detect import Detect
+from common.classes.PortBase import PortBase
 from lib.scan.log import cprint
 
 # refer:
@@ -12,7 +12,7 @@ from lib.scan.log import cprint
 # http://www.iodigitalsec.com/ssh-fingerprint-and-hostkey-with-paramiko-in-python/
 # RFC-4251~4
 
-class sshDetect(Detect):
+class sshDetect(PortBase):
     '''
     :return str. banner
     :

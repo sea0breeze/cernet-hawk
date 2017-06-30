@@ -1,10 +1,10 @@
 import socket
 
-from Detect import Detect
+from common.classes.PortBase import PortBase
 # from lib.log import cprint
 
 
-class dnsDetect(Detect):
+class dnsDetect(PortBase):
 
     '''
     :str. banner
