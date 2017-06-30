@@ -1,0 +1,2 @@
+def initDB():
+    return True
