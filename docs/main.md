@@ -36,7 +36,7 @@
 - orm: 数据库的配置和定义文件
     - schema: 数据库定义文件
     - tables: 存放orm
-- scanmodule: 分布式扫描相关目录
+- module: 分布式扫描相关目录
     - nmap: nmap相关目录
     - scan: 服务扫描放置目录
 - thirdparty: 第三方依赖库目录
