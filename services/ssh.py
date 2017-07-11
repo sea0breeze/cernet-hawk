@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 import socket
 import struct
 from cStringIO import StringIO
@@ -12,6 +15,7 @@ from lib.scan.log import cprint
 # http://www.iodigitalsec.com/ssh-fingerprint-and-hostkey-with-paramiko-in-python/
 # RFC-4251~4
 
+
 class sshDetect(PortBase):
     '''
     :return str. banner
@@ -19,8 +23,12 @@ class sshDetect(PortBase):
 
     '''
     # not complete yet
-    def __init__(self, ip, port = 22, timeout = 2):
-        super(sshDetect, self).__init__(ip, port, 'ssh')
+
+    def __init__(self):
+        super(sshDetect, self).__init__()
+
+    def run(self, ip, port=22, timeout=2):
+
         try:
             socket.setdefaulttimeout(2)
             s = socket.socket()
@@ -47,7 +55,8 @@ class sshDetect(PortBase):
             self.ssh_key = tran.get_remote_server_key()
             public_key = self.ssh_key.public_numbers
             try:
-                self.data.rsa_public_key = (str(public_key.e), str(public_key.n))
+                self.data.rsa_public_key = (
+                    str(public_key.e), str(public_key.n))
             except AttributeError:
                 cprint('This host is not using rsa for ssh!', 'error')
 
@@ -66,31 +75,46 @@ class sshDetect(PortBase):
         kex_algo_length = struct.unpack('>i', stream.read(4))[0]
         self.data.kex_algo = stream.read(kex_algo_length).split(',')
         server_host_key_algo_length = struct.unpack('>i', stream.read(4))[0]
-        self.data.server_host_key_algo = stream.read(server_host_key_algo_length).split(',')
+        self.data.server_host_key_algo = stream.read(
+            server_host_key_algo_length).split(',')
 
-        enc_algo_client_to_server_length = struct.unpack('>i', stream.read(4))[0]
-        self.data.enc_algo_client_to_server = stream.read(enc_algo_client_to_server_length).split(',')
+        enc_algo_client_to_server_length = struct.unpack('>i', stream.read(4))[
+            0]
+        self.data.enc_algo_client_to_server = stream.read(
+            enc_algo_client_to_server_length).split(',')
 
-        enc_algo_server_to_client_length = struct.unpack('>i', stream.read(4))[0]
-        self.data.enc_algo_server_to_client = stream.read(enc_algo_server_to_client_length).split(',')
+        enc_algo_server_to_client_length = struct.unpack('>i', stream.read(4))[
+            0]
+        self.data.enc_algo_server_to_client = stream.read(
+            enc_algo_server_to_client_length).split(',')
 
-        mac_algo_client_to_server_length = struct.unpack('>i', stream.read(4))[0]
-        self.data.mac_algo_client_to_server = stream.read(mac_algo_client_to_server_length).split(',')
+        mac_algo_client_to_server_length = struct.unpack('>i', stream.read(4))[
+            0]
+        self.data.mac_algo_client_to_server = stream.read(
+            mac_algo_client_to_server_length).split(',')
 
-        mac_algo_server_to_client_length = struct.unpack('>i', stream.read(4))[0]
-        self.data.mac_algo_server_to_client = stream.read(mac_algo_server_to_client_length).split(',')
+        mac_algo_server_to_client_length = struct.unpack('>i', stream.read(4))[
+            0]
+        self.data.mac_algo_server_to_client = stream.read(
+            mac_algo_server_to_client_length).split(',')
 
-        compress_algo_client_to_server_length = struct.unpack('>i', stream.read(4))[0]
-        self.data.compress_algo_client_to_server = stream.read(compress_algo_client_to_server_length).split(',')
+        compress_algo_client_to_server_length = struct.unpack('>i', stream.read(4))[
+            0]
+        self.data.compress_algo_client_to_server = stream.read(
+            compress_algo_client_to_server_length).split(',')
 
-        compress_algo_server_to_client_length = struct.unpack('>i', stream.read(4))[0]
-        self.data.compress_algo_server_to_client = stream.read(compress_algo_server_to_client_length).split(',')
+        compress_algo_server_to_client_length = struct.unpack('>i', stream.read(4))[
+            0]
+        self.data.compress_algo_server_to_client = stream.read(
+            compress_algo_server_to_client_length).split(',')
 
         lang_client_to_server_length = struct.unpack('>i', stream.read(4))[0]
-        self.data.lang_client_to_server = stream.read(lang_client_to_server_length).split(',')
+        self.data.lang_client_to_server = stream.read(
+            lang_client_to_server_length).split(',')
 
         lang_server_to_client_length = struct.unpack('>i', stream.read(4))[0]
-        self.data.lang_server_to_client = stream.read(lang_server_to_client_length).split(',')
+        self.data.lang_server_to_client = stream.read(
+            lang_server_to_client_length).split(',')
 
 
 if __name__ == '__main__':

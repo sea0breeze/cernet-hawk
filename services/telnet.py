@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 '''
 refer:
     http://www.cnblogs.com/dazhaxie/archive/2012/06/27/2566054.html
@@ -5,7 +8,6 @@ refer:
 '''
 
 import telnetlib
-# from lib.log import cprint
 
 
 class telnetDetect:
@@ -17,7 +19,10 @@ class telnetDetect:
     '''
     # not complete yet
 
-    def __init__(self, ip, port=53):
+    def __init__(self):
+        pass
+
+    def run(self, ip, port=53):
         # not complete yet
         try:
             tn = telnetlib.Telnet(host=ip, port=port, 'telnet')

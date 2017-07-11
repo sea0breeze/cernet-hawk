@@ -1,7 +1,9 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 import socket
 
 from common.classes.PortBase import PortBase
-# from lib.log import cprint
 
 
 class dnsDetect(PortBase):
@@ -13,8 +15,10 @@ class dnsDetect(PortBase):
     '''
     # not complete yet
 
-    def __init__(self, ip, port = 53, timeout = 2):
-        super(dnsDetect, self).__init__(ip, port, 'dns')
+    def __init__(self):
+        super(dnsDetect, self).__init__()
+    
+    def run(self, ip, port = 53, timeout = 2):
         try:
             socket.setdefaulttimeout(2)
             s = socket.socket()

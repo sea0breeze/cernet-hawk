@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 # refer:
 # mongo could login without password if not config well
 # this mongo code is not complete
@@ -7,7 +10,10 @@ import pymongo
 
 class mongoDetect(Detect):
 
-    def __init__(self, ip, port = 27017):
+    def __init__(self):
+        pass
+
+    def run(self, ip, port = 27017):
 
         try:
             conn = pymongo.MongoClient(ip, port, 'mongo')

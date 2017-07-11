@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 def conversion(keydict):
     '''
     Exchange the key and value of a dictionary

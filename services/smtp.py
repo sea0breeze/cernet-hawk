@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 '''
 refer:
 '''
@@ -15,7 +18,10 @@ class smtpDetect:
     '''
     # not complete yet
 
-    def __init__(self, ip, port=25):
+    def __init__(self):
+        pass
+
+    def run(self, ip, port=25):
         # not complete yet
         try:
             server = smtplib.SMTP()

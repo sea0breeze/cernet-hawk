@@ -1,15 +1,17 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 from ftplib import FTP
 
-# from lib.log import cprint
 from common.classes.PortBase import PortBase
 
 
 class ftpDetect(PortBase):
 
-    def __init__(self, ip, port=53, timeout=2):
+    def __init__(self):
+        super(ftpDetect, self).__init__()
 
-        super(ftpDetect, self).__init__(ip, port, 'ftp')
-
+    def run(self, ip, port=53, timeout=2):
         # cprint("msg","info")
         try:
             if port != 21:

@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 from socket import gethostbyaddr
 
 from requests import get
@@ -12,8 +15,9 @@ class httpDetect(PortBase):
 
     def __init__(self, ip, port=80):
         # init at here
-        super(httpDetect, self).__init__(ip, port, 'http')
+        super(httpDetect, self).__init__()
 
+    def run(self, ip, port=80):
         try:
             r = get(parseUrl(ip))
             self.data.headers = r.headers
