@@ -3,10 +3,9 @@
 
 import subprocess
 import os
-import config
+import config.common
 import xml.etree.cElementTree as ET
-from log import cprint
-from db import save
+from utils.log import cprint
 
 error_list = []
 nmap_path = ''
@@ -72,7 +71,7 @@ def single_run_nmap(ip, ports):
 
     os.seteuid(0)  # run as root.
     cprint('Start scanning {} with nmap'.format(ip), 'info')
-    cmd = [nmap_path] + config.NMAP_CMD + [ip, '-p', ','.join(map(str, ports))]
+    cmd = [nmap_path] + config.common.NMAP_CMD + [ip, '-p', ','.join(map(str, ports))]
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, error = p.communicate()
 
@@ -110,7 +109,9 @@ def run_nmap(ipdir):
 
     if error_list:
         cprint('Scanning finished, but some error occurs while nmap scanning!', 'error')
-        save(error_list, 'nmap_error')
+        # save(error_list, 'nmap_error')
+        with open('test.log', 'w') as f:
+            f.write(str(error_list))
     else:
         cprint('One ip range scanning finished with no error!', 'info')
 
@@ -119,4 +120,4 @@ def run_nmap(ipdir):
 
 if __name__ == "__main__":
     print 'Testing'
-    print run_nmap({'127.0.0.1': [80, 22]})
+    print run_nmap({'202.120.7.149': [80, 22]})

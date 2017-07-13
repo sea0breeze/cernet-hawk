@@ -3,9 +3,9 @@
 
 import logging
 
-from config import CONSOLE_PRINT
-from config import LOG_FILE
-from config import disableColor
+from config.common import CONSOLE_PRINT
+from config.paths import commonlogpath
+from config.common import disableColor
 
 from color import colorizing_stream_handler
 
@@ -16,7 +16,7 @@ logger = logging.getLogger("hawk_logger")
 
 logger.setLevel(logging.DEBUG)
 
-fh = logging.FileHandler(LOG_FILE)
+fh = logging.FileHandler(commonlogpath)
 fh.setLevel(logging.DEBUG)
 
 if disableColor:
@@ -44,7 +44,7 @@ def cprint(msg, level="debug"):
 
     by default, record all msg to log
     and when level >= CONSOLE_PRINT, will print
-    CONSOLE_PRINT was defined in config.py
+    CONSOLE_PRINT was defined in config.common.py
 
     :param msg: the val you want to print
     :param level: enum. the level of msg
