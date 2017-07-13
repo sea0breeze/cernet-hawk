@@ -3,10 +3,12 @@
 
 from pymongo import MongoClient
 
+
 class Mongo(object):
     """
     MongoDB Client
     """
+
     def __init__(self, collection):
         super(Mongo, self).__init__()
         self.conn = MongoClient('localhost')
@@ -15,10 +17,10 @@ class Mongo(object):
     def insert(self, data):
         self.col.insert(data)
 
-    def find(self, index = {}):
+    def find(self, index={}):
         return [i for i in self.col.find(index)]
 
-    def delete(self, index = {}):
+    def delete(self, index={}):
         self.col.remove(index)
 
 if __name__ == '__main__':
@@ -27,4 +29,3 @@ if __name__ == '__main__':
     print m.find({})
     m.delete()
     print m.find()
-
