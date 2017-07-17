@@ -2,7 +2,7 @@
 # -*- coding:utf-8 -*-
 
 from os.path import join
-from utils.time import timestr
+from utils.mtime import timestr
 
 # 各种字典和文件的默认目录配置
 
