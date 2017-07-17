@@ -6,6 +6,8 @@ import os
 import config.common
 import xml.etree.cElementTree as ET
 from utils.log import cprint
+import config.paths
+import os.path
 
 error_list = []
 nmap_path = ''
@@ -63,7 +65,7 @@ def single_run_nmap(ip, ports):
 
     global nmap_path
 
-    filename = 'data/nmap/{}_{}'.format(ip, '-'.join(map(str, ports)))
+    filename = os.path.join(config.paths.logpath, '{}_{}'.format(ip, '-'.join(map(str, ports))))
     # Save time while debugging by not scanning ip that has been scanned.
     if os.path.exists(filename):
         cprint('Previous scan result exists for {}, just parse the xml.'.format(ip), 'info')
