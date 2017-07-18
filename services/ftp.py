@@ -4,7 +4,7 @@
 from ftplib import FTP
 
 from common.classes.PortBase import PortBase
-
+from orm.ninfo import Ninfo
 
 class ftpDetect(PortBase):
 
@@ -32,7 +32,14 @@ class ftpDetect(PortBase):
 
         except Exception, e:
             self.data.exception = str(e)
-
+            return None
+            
+        ninfo = Ninfo()
+        ninfo.ip = ip
+        ninfo.port = port
+        ninfo.banner = self.data.banner
+        ninfo.save()
+        return True
 
 if __name__ == '__main__':
     ftpDetect("public.sjtu.edu.cn", 21).pprint()

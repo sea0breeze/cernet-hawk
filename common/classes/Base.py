@@ -15,6 +15,7 @@ from config.common import TIMEOUT
 from config.celery import TIMELIIMIT, SOFTTIMELIIMIT
 from config.celery import RATELIMIT
 
+from orm.log import Log
 
 class Base(Task):
 
@@ -66,12 +67,22 @@ class Base(Task):
         except Exception as e:
             pass
 
-    def info(self, guid, msg):
-        pass
+    def info(self, msg):
+        log = Log()
+        log.lid = guid()
+        log.generated = now()
+        log.level = "INFO"
+        log.message = msg
+        log.save()
 
-    def error(self, guid, msg):
-        pass
-        
+    def error(self, msg):
+        log = Log()
+        log.lid = guid()
+        log.generated = now()
+        log.level = "ERROR"
+        log.message = msg
+        log.save()
+
     def test(self):
         # write test code here
         pass
