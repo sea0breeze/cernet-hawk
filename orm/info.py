@@ -30,12 +30,12 @@ class NmapInfo(Document):
             ni = cls()
             ni.ip = ip
             ni.port = port
-            for k in self.unrequires:
+            for k in cls.unrequires:
                 if k in infos[port]:
                     setattr(ni, k, infos[port][k])
             ni.save()
         return True
 
 if __name__ == '__main__':
-    s = '{"202.120.7.149": {"80": {"version ": "1.10.3 ", "extrainfo ": "Ubuntu ", "ostype ": "Linux ", "name ": "http ", "product ": "nginx "}, "22": {"version ": "7.2 p2 Ubuntu 4 ubuntu2.2 ", "extrainfo ": "Ubuntu Linux;protocol 2.0 ", "ostype ": "Linux ", "name ": "ssh ", "product ": "OpenSSH "}}}'
+    s = '{"202.120.7.149": {"80": {"version": "1.10.3 ", "extrainfo": "Ubuntu", "ostype": "Linux ", "name": "http ", "product": "nginx "}, "22": {"version": "7.2 p2 Ubuntu 4 ubuntu2.2 ", "extrainfo": "Ubuntu Linux;protocol 2.0 ", "ostype": "Linux ", "name": "ssh ", "product": "OpenSSH "}}}'
     NmapInfo.addWithJson(s)
