@@ -10,10 +10,10 @@ from copy import deepcopy
 from celery import Task
 
 from common.core import initDB
-from config.setting import DEBUG, VERBOSE
-from config.setting import TIMEOUT
-from config.setting import TIMELIIMIT, SOFTTIMELIIMIT
-from config.setting import RATELIMIT
+from config.common import DEBUG, VERBOSE
+from config.common import TIMEOUT
+from config.celery import TIMELIIMIT, SOFTTIMELIIMIT
+from config.celery import RATELIMIT
 
 
 class Base(Task):
