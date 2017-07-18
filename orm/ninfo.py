@@ -11,7 +11,7 @@ class Ninfo(Document):
     banner = StringField(max_length=30, required=True)
 
     @classmethod
-    def save(cls, ip, port, banner):
+    def add(cls, ip, port, banner):
         ni = cls()
         ni.ip = ip
         ni.port = port
