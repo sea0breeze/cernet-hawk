@@ -5,6 +5,7 @@ from json import loads
 from mongoengine import *
 from utils.mtime import now
 
+
 class NmapInfo(Document):
 
     """nmap"""
@@ -19,7 +20,8 @@ class NmapInfo(Document):
     ostype = StringField(max_length=30, required=False)
     generated = DateTimeField(required=True, default=now)
 
-    unrequires = ["name", "version", "extrainfo", "product", "devicetype", "ostype"]
+    unrequires = ["name", "version", "extrainfo",
+                  "product", "devicetype", "ostype"]
 
     @classmethod
     def addWithJson(cls, jsStr):
