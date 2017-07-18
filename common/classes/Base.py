@@ -28,12 +28,6 @@ class Base(Task):
         # limit 100 task on one hour
         self.rate_limit = RATELIMIT
 
-    @property
-    def db(self):
-        if self._db is None:
-            self._db = initDB()
-        return self._db
-
     def on_success(self, retval, task_id, args, kwargs):
         self.db.commit()
         self.db.close()
@@ -73,11 +67,11 @@ class Base(Task):
             pass
 
     def info(self, guid, msg):
-        self.db.commit()
+        pass
 
     def error(self, guid, msg):
-        self.db.commit()
-
+        pass
+        
     def test(self):
         # write test code here
         pass
