@@ -1,6 +1,24 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
+
+def check_sudo():
+    """
+    Checks for sudo/Administrator privileges
+    """
+
+    check = None
+
+    if not subprocess.mswindows:
+        if getattr(os, "geteuid"):
+            check = os.geteuid() == 0
+    else:
+        import ctypes
+        check = ctypes.windll.shell32.IsUserAnAdmin()
+
+    return check
+
+
 def conversion(keydict):
     '''
     Exchange the key and value of a dictionary
@@ -16,6 +34,7 @@ def conversion(keydict):
             else:
                 valuedict[element] = [key]
     return valuedict
+
 
 def parseUrl(url):
 

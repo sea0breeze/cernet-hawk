@@ -3,6 +3,8 @@
 
 import sys
 
+from common import versioncheck
+
 def runcelery():
 
     app = Celery('pocer', backend=backend, broker=broker)
