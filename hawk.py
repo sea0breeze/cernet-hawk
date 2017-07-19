@@ -5,15 +5,6 @@ import sys
 
 from common import versioncheck
 
-def runcelery():
-
-    app = Celery('hawk', backend=backend, broker=broker)
-    from services.ftp import ftpDetect
-    app.tasks.register(ftpDetect)
-    # servicesModules = getModules(modulepath)
-
-    # for module in modules:
-        # app.tasks.register(singleModuleInstance(module))
 
 def runDispatch(arg, dispatchpid, dispatchlog):
     if arg in ('start', 'stop', 'restart', 'run', 'single', 'init'):
@@ -25,13 +16,20 @@ def runDispatch(arg, dispatchpid, dispatchlog):
 
 if __name__ == '__main__':
     if len(sys.argv) <= 1:
-
+        # 这里因为作用域的问题不能写成函数
         from celery import Celery
-
         from config.common import DEBUG
         from config.celery import *
+        from services.ftp import ftpDetect
 
-        runcelery()
+        app = Celery('hawk', backend=backend, broker=broker)
+        app.tasks.register(ftpDetect)
+
+        # servicesModules = getModules(modulepath)
+
+        # for module in modules:
+        # app.tasks.register(singleModuleInstance(module))
+
     elif sys.argv[1] == "dispatch":
 
         from tasksrv.Dispatch import Dispatcher

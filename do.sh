@@ -2,17 +2,17 @@
 
 function startworker {
     echo "start hawk worker..."
-    celery multi start w1 w2 w3 w4 w5 w6 w7 w8 -A hawk -l info --pidfile=./log/%n.pid --logfile=./log/%n%I.log
+    celery multi start w1 w2 w3 w4 w5 w6 w7 w8 -A hawk -l info --pidfile=./logs/%n.pid --logfile=./logs/%n%I.log
 }
 
 function stopworker {
     echo "stop hawk worker..."
-    celery multi stopwait w1 w2 w3 w4 w5 w6 w7 w8 -A hawk -l info --pidfile=./log/%n.pid
+    celery multi stopwait w1 w2 w3 w4 w5 w6 w7 w8 -A hawk -l info --pidfile=./logs/%n.pid
 }
 
 function restartworker {
     echo "restart hawk worker..."
-    celery multi restart w1 w2 w3 w4 w5 w6 w7 w8 -A hawk -l info --pidfile=./log/%n.pid --logfile=./log/%n%I.log
+    celery multi restart w1 w2 w3 w4 w5 w6 w7 w8 -A hawk -l info --pidfile=./logs/%n.pid --logfile=./logs/%n%I.log
 }
 
 function startflower {
@@ -110,7 +110,7 @@ case $action in
         startflower
         ;;
     clearlog)
-        rm -f ./log/*.log
+        rm -f ./logs/*.log
         ;;
     dump)
         mysqldump -uroot -p hawk > /home/hawk/backup/$(date +'%Y_%m_%d').sql
