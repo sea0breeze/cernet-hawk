@@ -7,12 +7,13 @@ from common import versioncheck
 
 def runcelery():
 
-    app = Celery('pocer', backend=backend, broker=broker)
+    app = Celery('hawk', backend=backend, broker=broker)
+    from services.ftp import ftpDetect
+    app.tasks.register(ftpDetect)
+    # servicesModules = getModules(modulepath)
 
-    modules = getModules(modulepath)
-
-    for module in modules:
-        app.tasks.register(singleModuleInstance(module))
+    # for module in modules:
+        # app.tasks.register(singleModuleInstance(module))
 
 def runDispatch(arg, dispatchpid, dispatchlog):
     if arg in ('start', 'stop', 'restart', 'run', 'single', 'init'):
@@ -27,10 +28,8 @@ if __name__ == '__main__':
 
         from celery import Celery
 
-        from utils.core import singleModuleInstance
-        from config.setting import DEBUG
+        from config.common import DEBUG
         from config.celery import *
-        from common.constant.paths import modulepath
 
         runcelery()
     elif sys.argv[1] == "dispatch":
