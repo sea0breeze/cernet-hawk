@@ -3,7 +3,7 @@
 
 from pprint import pprint
 
-from common.classes.AttribDict import AttribDict
+from common.classes.AttrDict import AttribDict
 from common.classes.Base import Base
 
 

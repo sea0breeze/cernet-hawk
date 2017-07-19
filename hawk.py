@@ -15,7 +15,11 @@ def runDispatch(arg, dispatchpid, dispatchlog):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) <= 1:
+
+    print sys.argv
+    print sys.argc
+
+    if sys.argc <= 1:
         # 这里因为作用域的问题不能写成函数
         from celery import Celery
         from config.common import DEBUG
