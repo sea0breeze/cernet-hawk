@@ -20,8 +20,6 @@ from orm.log import Log
 class Base(Task):
 
     def __init__(self):
-        # name is important to use
-        self.name = self.__class__.__name__
         self._db = None
         # can't run more than 1 hour
         self.time_limit = TIMELIIMIT

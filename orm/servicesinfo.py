@@ -4,7 +4,7 @@
 from mongoengine import *
 
 
-class Ninfo(Document):
+class ServicesInfo(Document):
 
     ip = StringField(max_length=30, required=True)
     port = IntField(default=0, required=True)

@@ -4,9 +4,11 @@
 from ftplib import FTP
 
 from common.classes.PortBase import PortBase
-from orm.ninfo import Ninfo
+from orm.servicesinfo import ServicesInfo
 
 class ftpDetect(PortBase):
+    
+    name = "ftpDetect"
 
     def __init__(self):
         super(ftpDetect, self).__init__()
@@ -33,12 +35,7 @@ class ftpDetect(PortBase):
         except Exception, e:
             self.data.exception = str(e)
             return None
-            
-        ninfo = Ninfo()
-        ninfo.ip = ip
-        ninfo.port = port
-        ninfo.banner = self.data.banner
-        ninfo.save()
+
         return True
 
 if __name__ == '__main__':
