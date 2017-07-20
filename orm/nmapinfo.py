@@ -2,8 +2,10 @@
 # -*- coding:utf-8 -*-
 
 from json import loads
+
 from mongoengine import *
 from utils.mtime import now
+import orm.db
 
 
 class NmapInfo(Document):
