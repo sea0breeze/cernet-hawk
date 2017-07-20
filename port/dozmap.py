@@ -6,7 +6,7 @@ import os
 import config
 from log import cprint
 import types
-from netaddr import IPAddress, IPNetwork, IPRange, cidr_merge
+from netaddr import IPAddress, IPRange, cidr_merge
 
 
 def do_zmap(port, range):

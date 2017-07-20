@@ -23,7 +23,6 @@ class NmapScan(Base):
     def __init__(self):
         """
         Initialize the nmap scanner.
-        :param ipdir: dict. Using ip:ports as key:value.
         """
         super(NmapScan, self).__init__()
         self.nmap_path = subprocess.check_output(['which', 'nmap']).rstrip('\n')
@@ -135,4 +134,4 @@ class NmapScan(Base):
 if __name__ == "__main__":
     print 'Testing'
     test = NmapScan()
-    test.run({'202.120.7.149': [80, 22]})
+    test.run({'202.120.7.149': ['80', '22']})
