@@ -1,18 +1,17 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-import subprocess
 import os
-import xml.etree.cElementTree as ET
 import os.path
+import subprocess
+import xml.etree.cElementTree as ET
 from json import dumps
 
-from utils.log import cprint
 import config.paths
 import config.common
 from common.classes.Base import Base
 from orm.nmapinfo import NmapInfo
-
+from utils.log import cprint
 
 
 class NmapScan(Base):
@@ -46,7 +45,7 @@ class NmapScan(Base):
             result = {}
             filter_flag = True
             for port in root.find('host').find('ports').findall('port'):
-                if port.find('state').get('state') not in  ('filtered', 'closed'):
+                if port.find('state').get('state') not in ('filtered', 'closed'):
                     filter_flag = False
                 if port.find('state').get('state') == 'open':
                     service = port.find('service').attrib
@@ -80,7 +79,7 @@ class NmapScan(Base):
         :param port: list. All open ports of the ip founded by zmap.
         :return: list. Further imformation about services on the host.
         """
-        
+
         self.current_ip = ip
         filename = os.path.join(config.paths.logpath, '{}_{}.xml.log'.format(ip, '-'.join(map(str, ports))))
         # Save time while debugging by not scanning ip that has been scanned.
@@ -90,8 +89,10 @@ class NmapScan(Base):
 
         os.seteuid(0)  # run as root.
         cprint('Start scanning {} with nmap'.format(ip), 'info')
-        cmd = [self.nmap_path] + config.common.NMAP_CMD + [ip, '-p', ','.join(ports)]
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        cmd = [self.nmap_path] + config.common.NMAP_CMD + \
+            [ip, '-p', ','.join(ports)]
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
         out, error = p.communicate()
 
         if error:
