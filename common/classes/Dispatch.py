@@ -17,9 +17,6 @@ class Dispatcher(Daemon):
     def __init__(self, *args, **kwargs):
         super(Dispatcher, self).__init__(*args, **kwargs)
 
-    def init(self):
-        self.db = initDB()
-
     def oneRound(self):
         pass
 
