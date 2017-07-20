@@ -21,6 +21,7 @@ class ZmapInfo(Document):
             zi = ZmapInfo()
             zi.ip = ip
             zi.ports = map(int, infos[ip])
+            zi.save()
         return True
 
 if __name__ == '__main__':
