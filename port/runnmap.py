@@ -30,6 +30,7 @@ class NmapScan(Base):
             cprint('Nmap is not installed!', 'error')
             exit()
         self.error_list = []
+        self.nmap_result = {}
         self.current_ip = None
 
     def parse_nmap_xml(self, nmap_xml):
@@ -71,7 +72,7 @@ class NmapScan(Base):
 
         return result
 
-    def single_run_nmap(self, ip, ports):
+    def run(self, ip, ports):
         """
         Must run as root.
         Use nmap to get further imformation about the ip and ports
@@ -89,7 +90,7 @@ class NmapScan(Base):
             return self.parse_nmap_xml(filename)
 
         os.seteuid(0)  # run as root.
-        cprint('Start scanning {} with nmap'.format(ip), 'info')
+        cprint('Start scanning {} on port {} with nmap'.format(ip, ','.join(ports)), 'info')
         cmd = [self.nmap_path] + config.common.NMAP_CMD + \
             [ip, '-p', ','.join(ports)]
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
@@ -106,9 +107,11 @@ class NmapScan(Base):
         f = open(filename, 'w+')
         f.write(out)
         f.close()
-        return self.parse_nmap_xml(filename)
 
-    def run(self, ipdir):
+        self.nmap_result[ip] = self.parse_nmap_xml(filename)
+        NmapInfo.addWithJson(dumps(self.nmap_result))
+
+    def nouse_run(self, ipdir):
         """
         A wrapper for single_run_nmap.
         :param ipdir: dict. Using ip:ports as key:value.
