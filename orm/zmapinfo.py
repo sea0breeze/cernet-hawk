@@ -2,6 +2,8 @@
 # -*- coding:utf-8 -*-
 
 from json import loads
+
+import orm.db
 from mongoengine import *
 from utils.mtime import now
 

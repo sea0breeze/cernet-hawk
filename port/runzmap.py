@@ -3,10 +3,12 @@
 
 import subprocess
 import os
+from json import dumps
 
 import config.common
 from utils.log import cprint
 from common.classes.Base import Base
+from orm.zmapinfo import ZmapInfo
 
 class ZmapScan(Base):
     """
@@ -66,5 +68,6 @@ class ZmapScan(Base):
             self.single_run_zmap(port, ips)
 
         cprint("All zmap scanning finished!", "info")
+        ZmapInfo.addWithJson(dumps(self.zmap_result))
 
 
