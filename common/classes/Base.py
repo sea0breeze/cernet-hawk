@@ -20,7 +20,6 @@ from orm.log import Log
 class Base(Task):
 
     def __init__(self):
-        self._db = None
         # can't run more than 1 hour
         self.time_limit = TIMELIIMIT
         self.soft_time_limit = SOFTTIMELIIMIT
@@ -28,18 +27,17 @@ class Base(Task):
         self.rate_limit = RATELIMIT
 
     def on_success(self, retval, task_id, args, kwargs):
-        self.db.commit()
-        self.db.close()
+        pass
         # raise Exception(json.dumps(args))
 
     def on_failure(self, exc, task_id, args, kwargs, einfo):
         try:
-            self.db.commit()
+            pass
         except Exception as e:
             print("error on on_failure:", str(e))
-            self.db.rollback()
+            pass
         finally:
-            self.db.close()
+            pass
 
     def on_retry(exc, task_id, args, kwargs, einfo):
         pass

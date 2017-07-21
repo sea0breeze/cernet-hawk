@@ -14,6 +14,7 @@ class ZmapScan(Base):
     """
     Zmap scanner.
     """
+    name = "zmapscan"
 
     def __init__(self):
         """
@@ -57,7 +58,7 @@ class ZmapScan(Base):
             else:
                 self.zmap_result[ip] = [port]
 
-    def run(self, ports, ips):
+    def run(self, ips, ports):
         """
         A wrapper for single_run_zmap.
         :param ports: list. the ports that zmap scans

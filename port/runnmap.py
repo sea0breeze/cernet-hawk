@@ -18,6 +18,7 @@ class NmapScan(Base):
     """
     Nmap scanner.
     """
+    name = "nmapscan"
 
     def __init__(self):
         """
