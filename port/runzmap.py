@@ -58,7 +58,7 @@ class ZmapScan(Base):
             else:
                 self.zmap_result[ip] = [port]
 
-    def run(self, ips, ports):
+    def run(self, ips, ports=config.common.PORTS):
         """
         A wrapper for single_run_zmap.
         :param ports: list. the ports that zmap scans
