@@ -15,3 +15,7 @@ modulepath = join(".", "modules")
 errorlogpath = join(logpath, "error.log")
 commonlogpath = join(logpath, timestr()+".log")
 
+# ==== net =====
+
+zmapconf = join(".", "config", "cernet.conf")
+
