@@ -5,7 +5,7 @@ from json import loads
 
 import orm.db
 from mongoengine import *
-from utils.mtime import now
+from utils.mtime import unixnow, unixtoday
 
 
 class ZmapInfo(Document):
@@ -14,7 +14,8 @@ class ZmapInfo(Document):
 
     ip = StringField(max_length=30, required=True)
     ports = ListField(required=True)
-    generated = DateTimeField(required=True, default=now)
+    generated = IntField(required=True, default=unixnow)
+    dispatched = BooleanField(required=True, default=True)
 
     @classmethod
     def addWithJson(cls, jsStr):
@@ -25,6 +26,10 @@ class ZmapInfo(Document):
             zi.ports = map(int, infos[ip])
             zi.save()
         return True
+
+    @classmethod
+    def getTodayCount(cls):
+        return cls.objects(generated__gt=unixtoday()).count()
 
 if __name__ == '__main__':
     s = '{"202.120.7.105": ["22"],"202.120.7.111": ["80", "22", "443"]}'

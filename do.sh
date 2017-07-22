@@ -2,17 +2,17 @@
 
 function startworker {
     echo "start hawk worker..."
-    celery multi start w1 w2 w3 w4 w5 w6 w7 w8 -A hawk -l info --pidfile=./logs/%n.pid --logfile=./logs/%n%I.log
+    celery multi start w1 -A hawk -l info --pidfile=./logs/%n.pid --logfile=./logs/%n%I.log
 }
 
 function stopworker {
     echo "stop hawk worker..."
-    celery multi stopwait w1 w2 w3 w4 w5 w6 w7 w8 -A hawk -l info --pidfile=./logs/%n.pid
+    celery multi stopwait w1 -A hawk -l info --pidfile=./logs/%n.pid
 }
 
 function restartworker {
     echo "restart hawk worker..."
-    celery multi restart w1 w2 w3 w4 w5 w6 w7 w8 -A hawk -l info --pidfile=./logs/%n.pid --logfile=./logs/%n%I.log
+    celery multi restart w1 -A hawk -l info --pidfile=./logs/%n.pid --logfile=./logs/%n%I.log
 }
 
 function startflower {
@@ -22,12 +22,12 @@ function startflower {
 
 function stopflower {
     echo "stop flower server..."
-    python3 ./toolkit/killflower.py
+    python ./cli/killflower.py
 }
 
 function startweb {
     echo "start web server..."
-    sudo python3 app.py --port=80 &
+    sudo python app.py --port=80 &
 }
 
 function usage {
@@ -49,17 +49,17 @@ function usage {
 
 function startd {
     echo "start dispatch worker..."
-    python3 dispatch.py start
+    python dispatch.py start
 }
 
 function restartd {
     echo "restart dispatch worker..."
-    python3 dispatch.py restart
+    python dispatch.py restart
 }
 
 function stopd {
     echo "stop dispatch worker..."
-    python3 dispatch.py stop
+    python dispatch.py stop
 }
 
 action=$1
@@ -89,8 +89,7 @@ case $action in
         stopd
         ;;
     status)
-        python3 ./toolkit/status.py
-        python3 ./toolkit/manage.py
+        python ./cli/status.py
         # service redis status
         ;;
     startall) 
@@ -113,7 +112,7 @@ case $action in
         rm -f ./logs/*.log
         ;;
     dump)
-        mysqldump -uroot -p hawk > /home/hawk/backup/$(date +'%Y_%m_%d').sql
+        # mysqldump -uroot -p hawk > /home/hawk/backup/$(date +'%Y_%m_%d').sql
         ;;
     *) 
         usage

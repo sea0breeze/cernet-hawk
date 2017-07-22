@@ -33,7 +33,8 @@ class Daemon(object):
 
     def log(self, *args):
         if self.verbose >= 1:
-            print(*args)
+            for value in args:
+                print value
 
     def daemonize(self):
         """

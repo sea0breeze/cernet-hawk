@@ -34,7 +34,7 @@ VERBOSE = True
 Offline = False
 if mode.isLocal():
     Offline = True
-    pause = 1
+    # pause = 1
 
 # module's timeout
 TIMEOUT = 30

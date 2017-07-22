@@ -1,13 +1,18 @@
-import re
-import pygeoip
-
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-gi = pygeoip.GeoIP('GeoLiteCity.dat')
+import re
+import pygeoip
+
+from common.constant.reg import IPREG
+
+
+def isIPv4(ip):
+    return re.compile(IPREG).match(ip)
 
 
 def iplookup(ip):
+    gi = pygeoip.GeoIP('GeoLiteCity.dat')
     return gi.record_by_addr(ip)
 
 

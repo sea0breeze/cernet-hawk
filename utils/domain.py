@@ -5,6 +5,7 @@ import re
 import socket
 
 
+
 def isUniversalParsing(domain):
     # 判断是否为泛解析
     # 注：当一个域名解析为空的时候，也会返回True
@@ -18,11 +19,6 @@ def isUniversalParsing(domain):
         pass
     return False
 
-
-def isIPv4(ip):
-    # 判断是否为ipv4
-    # todo
-    return True
 
 
 def isCDN(domain):

@@ -15,6 +15,11 @@ modulepath = join(".", "modules")
 errorlogpath = join(logpath, "error.log")
 commonlogpath = join(logpath, timestr()+".log")
 
+dispatchpid = join(logpath, "dispatch.pid")
+dispatchlog = join(logpath, "dispatch.log")
+
+zmapprogress = join(logpath, "zmapProgress.log")
+
 # ==== net =====
 
 zmapconf = join(".", "config", "cernet.conf")
