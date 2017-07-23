@@ -15,7 +15,7 @@ class ZmapInfo(Document):
     ip = StringField(max_length=30, required=True)
     ports = ListField(required=True)
     generated = IntField(required=True, default=unixnow)
-    dispatched = BooleanField(required=True, default=True)
+    dispatched = BooleanField(required=True, default=False)
 
     @classmethod
     def addWithJson(cls, jsStr):
@@ -30,6 +30,12 @@ class ZmapInfo(Document):
     @classmethod
     def getTodayCount(cls):
         return cls.objects(generated__gt=unixtoday()).count()
+
+    @classmethod
+    def getTodayUndispathced(cls):
+        return cls.objects(
+            generated__gt=unixtoday(), dispatched__ne=True
+        )
 
 if __name__ == '__main__':
     s = '{"202.120.7.105": ["22"],"202.120.7.111": ["80", "22", "443"]}'

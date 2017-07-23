@@ -11,6 +11,8 @@ def status():
     p = p.communicate()[0]
     p = p.decode('utf8').split('\n')
     workers = []
+    nmap = []
+    zmap = []
     flower = ''
     web = ''
     dispatcher = ''
@@ -23,6 +25,11 @@ def status():
             dispatcher = i.split()[1]
         elif 'app.py' in i:
             web = i.split()[1]
+        elif 'nmap' in i:
+            nmap.append(i.split()[1])
+        elif 'zmap' in i:
+            zmap.append(i.split()[1])
+
     if len(workers):
         print("Celery: run %i workers" %
               (len(workers)))
@@ -44,6 +51,8 @@ def status():
     else:
         print("Dispatcher not work...")
 
+    print "run %d nmap threads" % len(nmap)
+    print "run %d zmap threads" % len(zmap)
 
 def CPUinfo():
     '''

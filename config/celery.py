@@ -10,6 +10,8 @@ else:
     backend = "amqp://"
     broker = "amqp://"
 
+flower = "http://localhost:5555/"
+apitasks = flower + "api/tasks"
 
 # task's runing limit
 TIMELIIMIT = 4200
@@ -25,3 +27,9 @@ SINGERUNLIMIT = 25
 
 # only 1000 running event at once
 MAXRUNLIMIT = 3000
+
+# ZMAP thread limit
+ZMAPLIMIT = 1
+
+# NMAP thread limit
+NMAPLIMIT = 1
