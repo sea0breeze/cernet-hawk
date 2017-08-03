@@ -14,12 +14,12 @@ class NmapInfo(Document):
 
     ip = StringField(max_length=30, required=True)
     port = IntField(default=0, required=True)
-    name = StringField(max_length=30, required=True)
-    version = StringField(max_length=30, required=False)
-    extrainfo = StringField(max_length=30, required=False)
-    product = StringField(max_length=30, required=False)
-    devicetype = StringField(max_length=30, required=False)
-    ostype = StringField(max_length=30, required=False)
+    name = StringField(max_length=100, required=True)
+    version = StringField(max_length=100, required=False)
+    extrainfo = StringField(max_length=100, required=False)
+    product = StringField(max_length=100, required=False)
+    devicetype = StringField(max_length=100, required=False)
+    ostype = StringField(max_length=100, required=False)
     generated = DateTimeField(required=True, default=now)
 
     unrequires = ["name", "version", "extrainfo",
@@ -30,6 +30,10 @@ class NmapInfo(Document):
         infos = loads(jsStr)
         ip = infos.keys()[0]
         infos = infos[ip]
+
+        if infos is None:
+            return
+
         for port in infos.keys():
             ni = cls()
             ni.ip = ip

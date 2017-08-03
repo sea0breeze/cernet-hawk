@@ -2,17 +2,17 @@
 
 function startworker {
     echo "start hawk worker..."
-    celery multi start w1 -A hawk -l info --pidfile=./logs/%n.pid --logfile=./logs/%n%I.log
+    celery multi start 5 -A hawk -l info --pidfile=./logs/%n.pid --logfile=./logs/%n%I.log
 }
 
 function stopworker {
     echo "stop hawk worker..."
-    celery multi stopwait w1 -A hawk -l info --pidfile=./logs/%n.pid
+    celery multi stopwait 5 -A hawk -l info --pidfile=./logs/%n.pid
 }
 
 function restartworker {
     echo "restart hawk worker..."
-    celery multi restart w1 -A hawk -l info --pidfile=./logs/%n.pid --logfile=./logs/%n%I.log
+    celery multi restart 5 -A hawk -l info --pidfile=./logs/%n.pid --logfile=./logs/%n%I.log
 }
 
 function startflower {
