@@ -100,7 +100,7 @@ class Dispatcher(Daemon):
                 self.oneRound()
             except Exception as e:
                 print("error occurs")
-                # errorlog(e)
+                print(e)
             finally:
                 if DEBUG:
                     print("[%s]: One round finish" % now())
