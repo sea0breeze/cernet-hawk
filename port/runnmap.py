@@ -85,7 +85,7 @@ class NmapScan(Base):
         self.current_ip = ip
         filename = os.path.join(config.paths.logpath, '{}_{}.xml.log'.format(ip, '-'.join(map(str, ports))))
         # Save time while debugging by not scanning ip that has been scanned.
-        if config.common.DEBUG and os.path.exists(filename):
+        if 0 and os.path.exists(filename):
             cprint('Previous scan result exists for {}, just parse the xml.'.format(ip), 'info')
             return self.parse_nmap_xml(filename)
 
