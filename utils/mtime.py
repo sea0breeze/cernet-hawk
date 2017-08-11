@@ -42,5 +42,9 @@ def unixtoday():
 def str2time(s):
     return time.mktime(time.strptime(s, "%Y-%m-%d"))
 
+
+def time2str(t):
+    return time.strftime(ISOTIMEFORMAT, time.localtime(t))
+
 if __name__ == '__main__':
     print unixtoday()

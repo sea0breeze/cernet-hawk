@@ -21,6 +21,7 @@ from port.runzmap import ZmapScan
 from port.runnmap import NmapScan
 
 from orm.zmapinfo import ZmapInfo
+from orm.nmapinfo import NmapInfo
 
 from thirdparty.daemon.daemon import Daemon
 
