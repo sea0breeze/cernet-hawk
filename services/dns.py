@@ -17,6 +17,7 @@ class dnsDetect(PortBase):
 
     def __init__(self):
         super(dnsDetect, self).__init__()
+        self.name = "dnsDetect"
     
     def run(self, ip, port = 53, timeout = 2):
         try:

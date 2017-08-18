@@ -9,6 +9,7 @@ import orm.db
 from mongoengine import *
 from utils.mtime import unixnow, str2time, now
 
+
 class NmapInfo(Document):
 
     """nmap"""
@@ -22,10 +23,16 @@ class NmapInfo(Document):
     devicetype = StringField(max_length=100, required=False)
     ostype = StringField(max_length=100, required=False)
     generated = IntField(required=True, default=unixnow)
-    # generated = DateTimeField(required=True, default=now)
+    dispatched = BooleanField(required=True, default=False)
 
     unrequires = ["name", "version", "extrainfo",
                   "product", "devicetype", "ostype"]
+
+    @classmethod
+    def getTodayUndispathced(cls):
+        return cls.objects(
+            generated__gt=unixtoday(), dispatched__ne=True
+        )
 
     @classmethod
     def addWithJson(cls, jsStr):
@@ -76,7 +83,7 @@ class NmapInfo(Document):
             if tmp >= start and tmp < end:
                 re.add((i.ip, i.port))
         return re
-        
+
 if __name__ == '__main__':
     s = '{"202.120.7.149": {"80": {"version": "1.10.3 ", "extrainfo": "Ubuntu", "ostype": "Linux ", "name": "http ", "product": "nginx "}, "22": {"version": "7.2 p2 Ubuntu 4 ubuntu2.2 ", "extrainfo": "Ubuntu Linux;protocol 2.0 ", "ostype": "Linux ", "name": "ssh ", "product": "OpenSSH "}}}'
     NmapInfo.addWithJson(s)

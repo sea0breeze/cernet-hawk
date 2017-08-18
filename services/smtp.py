@@ -5,11 +5,12 @@
 refer:
 '''
 
-import smtpliblib
+import smtplib
 # from lib.log import cprint
+from common.classes.PortBase import PortBase
 
 
-class smtpDetect:
+class smtpDetect(PortBase):
 
     '''
     :str. banner
@@ -19,7 +20,8 @@ class smtpDetect:
     # not complete yet
 
     def __init__(self):
-        pass
+        super(smtpDetect, self).__init__()
+        self.name = "smtpDetect"
 
     def run(self, ip, port=25):
         # not complete yet

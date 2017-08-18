@@ -33,3 +33,6 @@ ZMAPLIMIT = 5
 
 # NMAP thread limit
 NMAPLIMIT = 5
+
+# Services thread limit
+SERVICESLIMIT = 5

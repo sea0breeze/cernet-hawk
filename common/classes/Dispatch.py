@@ -8,12 +8,16 @@ import json
 import requests
 
 from config.celery import apitasks
-from config.celery import ZMAPLIMIT, NMAPLIMIT
+from config.celery import ZMAPLIMIT, NMAPLIMIT, SERVICESLIMIT
 from config.common import pause
 from config.common import DEBUG
 from config.common import Offline
 from config.paths import zmapconf
 from config.paths import zmapprogress
+from config.paths import modulepath
+
+from common.core import getModules
+from common.core import importModules
 
 from utils.mtime import now, pastTime, unixtoday
 
@@ -34,6 +38,8 @@ class Dispatcher(Daemon):
     def init(self):
         self.z = ZmapScan()
         self.n = NmapScan()
+        self.modules = getModules(modulepath)
+        self.modulesMap = importModules(self.modules)
 
     def oneRound(self):
         self.dispatchZmap()
@@ -62,7 +68,6 @@ class Dispatcher(Daemon):
         return
 
     def dispatchZmap(self):
-
         tasks = json.loads(requests.get(apitasks).content)
         cnt = 0
         for task in tasks:
@@ -92,7 +97,25 @@ class Dispatcher(Daemon):
             return True
 
     def dispatchServices(self):
-        pass
+        tasks = json.loads(requests.get(apitasks).content)
+        cnt = 0
+        for task in tasks:
+            tmp = tasks[task]
+            if tmp["name"] != "nmapscan"\
+                    and tmp["name"] != "zmapscan"\
+                    and tmp["state"] == "STARTED":
+                cnt += 1
+
+        if cnt > SERVICESLIMIT:
+            return
+        tasks = NmapInfo.getTodayUndispathced()
+
+        for task in tasks:
+            NmapInfo.objects(id=task.id).update(dispatched=True)
+            cnt += 1
+            if cnt > SERVICESLIMIT:
+                return
+        return
 
     def run(self):
         self.init()

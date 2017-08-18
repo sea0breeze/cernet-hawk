@@ -6,18 +6,22 @@ from common import versioncheck
 from celery import Celery
 from config.common import DEBUG
 from config.celery import *
+from config.paths import modulepath
+
+from common.core import getModules
+from common.core import importModules
 
 from port.runzmap import ZmapScan
 from port.runnmap import NmapScan
 
-from services.ftp import ftpDetect
-
+modules = importModules(getModules(modulepath))
 app = Celery('hawk', backend=backend, broker=broker)
-
 
 app.tasks.register(ZmapScan)
 app.tasks.register(NmapScan)
-app.tasks.register(ftpDetect)
+
+for module in modules:
+    app.tasks.register(modules[module])
 
 # servicesModules = getModules(modulepath)
 

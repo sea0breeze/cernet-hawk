@@ -8,7 +8,7 @@ from utils.mtime import timestr
 
 datapath = join(".", "data")
 logpath = join(".", "logs")
-modulepath = join(".", "modules")
+modulepath = join(".", "services")
 
 # ===== log =====
 

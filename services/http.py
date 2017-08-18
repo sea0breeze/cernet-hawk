@@ -4,22 +4,19 @@
 from socket import gethostbyaddr
 
 from requests import get
-from whois import whois
 
-from lib.utils.utils import parseUrl
-from lib.scan.log import cprint
 from common.classes.PortBase import PortBase
 
 
 class httpDetect(PortBase):
 
-    def __init__(self, ip, port=80):
+    def __init__(self):
         # init at here
         super(httpDetect, self).__init__()
+        self.name = "httpDetect"
 
     def run(self, ip, port=80):
         try:
-            r = get(parseUrl(ip))
             self.data.headers = r.headers
             self.data.status_code = r.status_code
             self.data.screenshoot = r.content

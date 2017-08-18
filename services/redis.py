@@ -13,7 +13,8 @@ class redisDetect(PortBase):
 
     def __init__(self):
         super(redisDetect, self).__init__()
-
+        self.name = "redisDetect"
+        
     def run(self, ip, port=6379, timeout=2):
 
         try:

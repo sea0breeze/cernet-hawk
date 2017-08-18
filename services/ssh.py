@@ -7,7 +7,6 @@ from cStringIO import StringIO
 from paramiko import Transport
 
 from common.classes.PortBase import PortBase
-from lib.scan.log import cprint
 
 # refer:
 # https://stribika.github.io/2015/01/04/secure-secure-shell.html
@@ -26,6 +25,7 @@ class sshDetect(PortBase):
 
     def __init__(self):
         super(sshDetect, self).__init__()
+        self.name = "sshDetect"
 
     def run(self, ip, port=22, timeout=2):
 

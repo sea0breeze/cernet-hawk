@@ -3,12 +3,12 @@
 
 from common.classes.PortBase import PortBase
 
-from lib.log import cprint
 
 class memcachedDetect(PortBase):
 
     def __init__(self):
-        pass
+        super(memcachedDetect, self).__init__()
+        self.name = "memcachedDetect"
 
     def run(self, ip, port):
 

@@ -6,12 +6,12 @@ from ftplib import FTP
 from common.classes.PortBase import PortBase
 from orm.servicesinfo import ServicesInfo
 
+
 class ftpDetect(PortBase):
-    
-    name = "ftpDetect"
 
     def __init__(self):
         super(ftpDetect, self).__init__()
+        self.name = "ftpDetect"
 
     def run(self, ip, port=53, timeout=2):
         # cprint("msg","info")

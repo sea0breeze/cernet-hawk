@@ -7,11 +7,13 @@
 # http://blog.itpub.net/26250550/viewspace-1364758/
 
 import pymongo
+from common.classes.PortBase import PortBase
 
-class mongoDetect(Detect):
+class mongoDetect(PortBase):
 
     def __init__(self):
-        pass
+        super(mongoDetect, self).__init__()
+        self.name = "mongoDetect"
 
     def run(self, ip, port = 27017):
 

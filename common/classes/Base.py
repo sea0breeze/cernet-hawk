@@ -17,7 +17,7 @@ from config.celery import RATELIMIT
 
 from orm.log import Log
 
-class Base(Task):
+class Base(Task, object):
 
     def __init__(self):
         # can't run more than 1 hour

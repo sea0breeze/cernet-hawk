@@ -8,9 +8,10 @@ refer:
 '''
 
 import telnetlib
+from common.classes.PortBase import PortBase
 
 
-class telnetDetect:
+class telnetDetect(PortBase):
 
     '''
     :str. banner
@@ -20,12 +21,14 @@ class telnetDetect:
     # not complete yet
 
     def __init__(self):
-        pass
+        super(telnetDetect, self).__init__()
+        self.name = "telnetDetect"
 
     def run(self, ip, port=53):
         # not complete yet
         try:
-            tn = telnetlib.Telnet(host=ip, port=port, 'telnet')
+            pass
+            # tn = telnetlib.Telnet(host=ip, port=port, 'telnet')
         except Exception as e:
             # cprint(str(e), 'error')
             tn.close()
