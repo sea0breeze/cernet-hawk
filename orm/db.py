@@ -4,4 +4,5 @@
 from utils.mtime import today
 from mongoengine import connect
 
-connect('hawk'+today())
+# connect('hawk'+today())
+connect('hawk')

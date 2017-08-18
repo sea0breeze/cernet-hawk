@@ -47,20 +47,36 @@ class NmapInfo(Document):
         return True
 
     @classmethod
-    def comp(cls):
+    def comp(cls, d=True):
         n = cls.objects()
-        t86 = str2time("2017-8-6")
-        t87 = str2time("2017-8-7")
+        if d:
+            t86 = str2time("2017-8-11")
+            t87 = str2time("2017-8-12")
+        else:
+            t86 = str2time("2017-8-6")
+            t87 = str2time("2017-8-7")
         n86 = set()
         n87 = set()
         for i in n:
-            tmp = mktime(i.generated.timetuple())
+            tmp = i.generated
             if tmp >= t86 and tmp < t87:
                 n86.add((i.ip, i.port))
             elif tmp >= t87:
                 n87.add((i.ip, i.port))
         return (n86 - n87), (n87 - n86)
 
+    @classmethod
+    def findByTime(cls, start, end):
+        n = cls.objects()
+        start = str2time(start)
+        end = str2time(end)
+        re = set()
+        for i in n:
+            tmp = i.generated
+            if tmp >= start and tmp < end:
+                re.add((i.ip, i.port))
+        return re
+        
 if __name__ == '__main__':
     s = '{"202.120.7.149": {"80": {"version": "1.10.3 ", "extrainfo": "Ubuntu", "ostype": "Linux ", "name": "http ", "product": "nginx "}, "22": {"version": "7.2 p2 Ubuntu 4 ubuntu2.2 ", "extrainfo": "Ubuntu Linux;protocol 2.0 ", "ostype": "Linux ", "name": "ssh ", "product": "OpenSSH "}}}'
     NmapInfo.addWithJson(s)

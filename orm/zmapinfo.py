@@ -40,20 +40,20 @@ class ZmapInfo(Document):
     @classmethod
     def comp(cls, comport):
         n = cls.objects()
-        t86 = int(str2time("2017-8-6"))
-        t87 = int(str2time("2017-8-7"))
+        t86 = int(str2time("2017-8-11"))
+        t87 = int(str2time("2017-8-12"))
         n86 = set()
         n87 = set()
         for i in n:
             tmp = i.generated
-            print time2str(i.generated)
-            # ports = list(set(i.ports))
-            # ports.sort()
-            # ports = ",".join(map(str,ports))
-            # if comport in i.ports:
-                # ports = comport
-            # else:
-                # continue
+            # print time2str(i.generated)
+            ports = list(set(i.ports))
+            ports.sort()
+            ports = ",".join(map(str, ports))
+            if comport in i.ports:
+                ports = comport
+            else:
+                continue
 
             if tmp >= t86 and tmp < t87:
                 n86.add(i.ip)
@@ -63,6 +63,21 @@ class ZmapInfo(Document):
         print len(n87)
         print len(n86 - n87)
         print len(n87 - n86)
+
+    @classmethod
+    def findByTime(cls, start, end):
+        n = cls.objects()
+        start = str2time(start)
+        end = str2time(end)
+        re = set()
+        for i in n:
+            tmp = i.generated
+            ports = list(set(i.ports))
+            ports.sort()
+            ports = ",".join(map(str, ports))
+            if tmp >= start and tmp < end:
+                re.add((i.ip, ports))
+        return re
 
 if __name__ == '__main__':
     s = '{"202.120.7.105": ["22"],"202.120.7.111": ["80", "22", "443"]}'
