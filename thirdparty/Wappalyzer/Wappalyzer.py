@@ -32,7 +32,12 @@ class WebPage(object):
         self.url = url
         # if use response.text, could have some error
         s = response.content
-        self.html = s.decode(chardet.detect(s)['encoding'])
+
+        try:
+            self.html = s.decode(chardet.detect(s)['encoding'])
+        except Exception as e:
+            self.html = s
+
         self.headers = response.headers
 
         # Parse the HTML with BeautifulSoup to find <script> and <meta> tags.
@@ -178,7 +183,7 @@ class Wappalyzer(object):
         def __get_implied_apps(apps):
             _implied_apps = set()
             for app in apps:
-                if 'implies' in self.apps[app]:
+                if self.apps.has_key(app) and 'implies' in self.apps[app]:
                     _implied_apps.update(set(self.apps[app]['implies']))
             return _implied_apps
 

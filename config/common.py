@@ -41,3 +41,6 @@ TIMEOUT = 30
 
 # disableColor = True
 disableColor = False
+
+# services should be handled
+servicesShouldHandle = ["http", "https"]

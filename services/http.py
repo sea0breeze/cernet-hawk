@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-from socket import gethostbyaddr
-
-from requests import get
-
 from common.classes.PortBase import PortBase
+from orm.servicesinfo import ServicesInfo
+from thirdparty.Wappalyzer.Wappalyzer import WebPage
 
 
 class httpDetect(PortBase):
@@ -15,26 +13,19 @@ class httpDetect(PortBase):
         super(httpDetect, self).__init__()
         self.name = "httpDetect"
 
-    def run(self, ip, port=80):
-        try:
-            self.data.headers = r.headers
-            self.data.status_code = r.status_code
-            self.data.screenshoot = r.content
-        except Exception, e:
-            cprint("Connection Error: %s\nException: %s" % (ip, e), "error")
-            return
-
-        try:
-            self.data.url = gethostbyaddr(ip)[0]
-        except Exception, e:
-            cprint('Host not found: %s\nException: %s' % (ip, e))
-
-        if hasattr(self.data, 'url'):
-            try:
-                self.data.whois = whois(self.data.url).text
-            except Exception, e:
-                cprint('Whois not found: %s\nException: %s' %
-                       (self.data.url, e))
+    def run(self, ip, port=80, ishttps=False):
+        # WebPage
+        port = int(port)
+        if ishttps:
+            url = "https://" + ip
+            if port != 443:
+                url += ":" + str(port)
+        else:
+            url = "http://" + ip
+            if port != 80:
+                url += ":" + str(port)
+        webinfo = WebPage(url).info()
+        ServicesInfo.add(ip, port, ["http", "https"][int(ishttps)],webinfo)
 
 if __name__ == '__main__':
     h = httpDetect("localhost")

@@ -7,7 +7,7 @@ from json import loads
 
 import orm.db
 from mongoengine import *
-from utils.mtime import unixnow, str2time, now
+from utils.mtime import unixnow, str2time, now, unixtoday
 
 
 class NmapInfo(Document):

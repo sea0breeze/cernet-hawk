@@ -12,6 +12,7 @@ from config.celery import ZMAPLIMIT, NMAPLIMIT, SERVICESLIMIT
 from config.common import pause
 from config.common import DEBUG
 from config.common import Offline
+from config.common import servicesShouldHandle
 from config.paths import zmapconf
 from config.paths import zmapprogress
 from config.paths import modulepath
@@ -111,6 +112,13 @@ class Dispatcher(Daemon):
         tasks = NmapInfo.getTodayUndispathced()
 
         for task in tasks:
+            if task.name not in servicesShouldHandle:
+                continue
+
+            if task.name == "https":
+                self.modulesMap["http"].delay(task.ip, task.port, True)
+            else:
+                self.modulesMap[task.name].delay(task.ip, task.port)
             NmapInfo.objects(id=task.id).update(dispatched=True)
             cnt += 1
             if cnt > SERVICESLIMIT:
