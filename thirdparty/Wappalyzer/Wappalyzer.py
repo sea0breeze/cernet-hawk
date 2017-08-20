@@ -59,6 +59,7 @@ class WebPage(object):
         return {
             "apps": ';'.join(self.apps),
             "title": self.title,
+            "content": self.html
         }
 
 
