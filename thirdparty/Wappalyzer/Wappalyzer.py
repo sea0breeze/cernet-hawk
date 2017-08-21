@@ -7,7 +7,6 @@ import chardet
 import requests
 from bs4 import BeautifulSoup
 
-
 class WebPage(object):
     """
     Simple representation of a web page, decoupled
@@ -28,7 +27,15 @@ class WebPage(object):
         headers : dict
             The HTTP response headers
         """
-        response = requests.get(url, verify=verify, timeout=timeout)
+        self.error = None
+        try:
+            response = requests.get(url, verify=verify, timeout=timeout)
+        except Exception as e:
+            self.error = {"error": str(e)}
+
+        if self.error is not None:
+            return
+
         self.url = url
         # if use response.text, could have some error
         s = response.content
@@ -56,6 +63,8 @@ class WebPage(object):
         self.apps = wappalyzer.analyze(self)
 
     def info(self):
+        if self.error is not None:
+            return self.error
         return {
             "apps": ';'.join(self.apps),
             "title": self.title,
