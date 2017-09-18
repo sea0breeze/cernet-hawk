@@ -21,3 +21,19 @@ class ServicesInfo(Document):
         ni.banner = banner
         ni.save()
         return True
+
+    @classmethod
+    def searchByName(cls, name):
+        return cls.objects(name=name)
+
+    @classmethod
+    def searchByPort(cls, port):
+        return cls.objects(port=port)
+
+    @classmethod
+    def searchByIP(cls, ip):
+        return cls.objects(ip=ip)
+
+    @classmethod
+    def getDetailByIP(cls, ip):
+        return cls.objects(ip=ip)

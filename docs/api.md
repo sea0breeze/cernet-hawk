@@ -3,13 +3,15 @@
 GET /search/{searchStr}
 
 e.g. 
-``
-GET /search/ip=444
-``
+```
+GET /search/ip=8.8.8.8
+GET /search/services=ssh
+GET /search/port=22
+```
 
 ok
 
-``json
+```json
 {
     "status" : "ok",
     "data" : [
@@ -28,21 +30,21 @@ ok
         }
     ]
 }
-``
+```
 error
 
-``json
+```json
 {
     "status" : "error",
     "msg" : "error msg"
 }
-``
+```
 
 GET /detail/{ip}
 
 ok
 
-``json
+```json
 {
     "status" : "ok",
     "data" : [
@@ -62,13 +64,13 @@ ok
         },
     ]
 }
-``
+```
 
 error
 
-``json
+```json
 {
     "status" : "error",
     "msg" : "error msg"
 }
-``
+```
