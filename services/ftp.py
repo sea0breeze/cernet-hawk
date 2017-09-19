@@ -13,12 +13,9 @@ class ftpDetect(PortBase):
         super(ftpDetect, self).__init__()
         self.name = "ftpDetect"
 
-    def run(self, ip, port=53, timeout=2):
+    def run(self, ip, port=21, timeout=2):
         # cprint("msg","info")
         try:
-            if port != 21:
-                ip += ':' + str(port)
-
             ftp = FTP()
             ftp.connect(ip, port, timeout=timeout)
 
