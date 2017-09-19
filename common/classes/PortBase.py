@@ -15,5 +15,8 @@ class PortBase(Base):
         super(PortBase, self).__init__()
         self.data = AttribDict()
 
+    def clear(self):
+        self.data = AttribDict()
+
     def pprint(self, stream=None, indent=1, width=80, depth=None):
         pprint(self.data, stream, indent, width, depth)

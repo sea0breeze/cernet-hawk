@@ -25,7 +25,7 @@ class httpDetect(PortBase):
             if port != 80:
                 url += ":" + str(port)
         webinfo = WebPage(url).info()
-        ServicesInfo.add(ip, port, ["http", "https"][int(ishttps)],webinfo)
+        ServicesInfo.add(ip, port, ["http", "https"][int(ishttps)], webinfo)
 
 if __name__ == '__main__':
     h = httpDetect("localhost")
