@@ -31,6 +31,8 @@ class ftpDetect(PortBase):
             ftp.retrlines('LIST', lambda i: flist.append(i))
             self.data.flist = flist
             ftp.quit()
+            ServicesInfo.add(ip, port, 'ftp', self.data)
+            self.clear()
 
         except Exception, e:
             self.data.exception = str(e)

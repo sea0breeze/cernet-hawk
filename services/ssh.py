@@ -59,7 +59,7 @@ class sshDetect(PortBase):
 
             tran.close()
             ServicesInfo.add(ip, port, 'ssh', self.data)
-            self.data.clear()
+            self.clear()
 
         except Exception as e:
             cprint(str(e), 'error')
