@@ -36,4 +36,4 @@ class smtpDetect(PortBase):
             return
 
 if __name__ == '__main__':
-    Test = smtpDetect("0.0.0.0")
+    Test = smtpDetect("202.120.40.90")
