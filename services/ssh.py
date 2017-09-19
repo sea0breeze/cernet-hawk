@@ -7,6 +7,8 @@ from cStringIO import StringIO
 from paramiko import Transport
 
 from common.classes.PortBase import PortBase
+from orm.servicesinfo import ServicesInfo
+from utils.log import cprint
 
 # refer:
 # https://stribika.github.io/2015/01/04/secure-secure-shell.html
@@ -30,7 +32,7 @@ class sshDetect(PortBase):
     def run(self, ip, port=22, timeout=2):
 
         try:
-            socket.setdefaulttimeout(2)
+            socket.setdefaulttimeout(timeout)
             s = socket.socket()
             s.connect((ip, port))
             banner = s.recv(50).strip('\r\n').split(' ')
@@ -48,19 +50,16 @@ class sshDetect(PortBase):
             self._parse_raw_data()
 
             # use paramiko to get hostkey because of lazyless...
-            s = socket.socket()
-            s.connect((ip, port))
-            tran = Transport(s)
+            tran = Transport((ip, port))
             tran.start_client()
-            self.ssh_key = tran.get_remote_server_key()
-            public_key = self.ssh_key.public_numbers
-            try:
-                self.data.rsa_public_key = (
-                    str(public_key.e), str(public_key.n))
-            except AttributeError:
-                cprint('This host is not using rsa for ssh!', 'error')
+            pubkey = tran.get_remote_server_key()
+            self.data.pubkey_name = pubkey.get_name()
+            fp= pubkey.get_fingerprint()
+            self.data.pubkey_fingerprint = ':'.join(map(lambda x:x.encode('hex'), fp))
 
             tran.close()
+            ServicesInfo.add(ip, port, 'ssh', self.data)
+            self.data.clear()
 
         except Exception as e:
             cprint(str(e), 'error')
@@ -118,5 +117,5 @@ class sshDetect(PortBase):
 
 
 if __name__ == '__main__':
-    ssh_test = sshDetect("202.112.26.119", 22)
+    ssh_test = sshDetect("202.120.37.170", 22)
     ssh_test.pprint()
