@@ -3,8 +3,9 @@
 
 import re
 import pygeoip
+import socket
 
-from common.constant.reg import IPREG
+IPREG = "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
 
 
 def isIPv4(ip):
@@ -12,8 +13,11 @@ def isIPv4(ip):
 
 
 def iplookup(ip):
-    gi = pygeoip.GeoIP('GeoLiteCity.dat')
-    return gi.record_by_addr(ip)
+    try:
+        gi = pygeoip.GeoIP('./utils/GeoLiteCity.dat')['city']
+        return gi.record_by_addr(ip)
+    except Exception as e:
+        return "Unknown"
 
 
 def addr2int(value):
@@ -47,6 +51,16 @@ def inetNtoa6(packed_ip):
     _ = packed_ip.encode("hex")
     return compress_ipv6(':'.join(_[i:i + 4] for i in xrange(0, len(_), 4)))
 
+
+def ip2domain(ip):
+    domain = 'no-data'
+    try:
+        domain = socket.gethostbyaddr(ip)[0]
+    except socket.herror as e:
+        return None
+    if domain == 'no-data':
+        return None
+    return domain
 
 if __name__ == '__main__':
     print iplookup(raw_input('ip: '))
