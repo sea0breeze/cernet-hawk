@@ -6,8 +6,9 @@ refer:
 '''
 
 import smtplib
-# from lib.log import cprint
+from lib.log import cprint
 from common.classes.PortBase import PortBase
+from orm.servicesinfo import ServicesInfo
 
 
 class smtpDetect(PortBase):
@@ -27,13 +28,15 @@ class smtpDetect(PortBase):
         # not complete yet
         try:
             server = smtplib.SMTP()
-            server.connect(ip, str(port), 'smtp')
+            self.data.banner = server.connect(ip, str(port))[1]
+            self.data.ehlo = server.ehlo().split('\n')
         except Exception as e:
-            # cprint(str(e), 'error')
-            # print(str(e), 'error')
-            server.quit()
-        finally:
-            return
+            cprint(str(e), 'error')
+            return None
+        server.quit()
+        ServicesInfo.add(ip, port, 'smtp', self.data)
+        self.clear()
+        return True
 
 if __name__ == '__main__':
     Test = smtpDetect("202.120.40.90")

@@ -63,7 +63,9 @@ class sshDetect(PortBase):
 
         except Exception as e:
             cprint(str(e), 'error')
-            return
+            return None
+
+        return True
 
     def _parse_raw_data(self):
         stream = StringIO(self._raw_recv)
