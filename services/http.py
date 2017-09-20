@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
+from lib.log import cprint
 from common.classes.PortBase import PortBase
 from orm.servicesinfo import ServicesInfo
 from thirdparty.Wappalyzer.Wappalyzer import WebPage
@@ -24,8 +25,13 @@ class httpDetect(PortBase):
             url = "http://" + ip
             if port != 80:
                 url += ":" + str(port)
-        webinfo = WebPage(url).info()
-        ServicesInfo.add(ip, port, ["http", "https"][int(ishttps)], webinfo)
+        try:
+            webinfo = WebPage(url).info()
+            ServicesInfo.add(ip, port, ["http", "https"][int(ishttps)], webinfo)
+        except Exception as e:
+            cprint(str(e), 'error')
+            return None
+        return True
 
 if __name__ == '__main__':
     h = httpDetect("localhost")
