@@ -8,8 +8,8 @@ import tornado.wsgi
 import wsgiref.simple_server
 
 from config.common import DEBUG
-from common.config import settings
-from common.config import handlers
+from config.websrv import settings
+from config.websrv import handlers
 
 
 def main():

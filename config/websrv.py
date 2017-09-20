@@ -42,4 +42,6 @@ settings = {
 # 路由
 handlers = [
     (r"/", "server.controller.main.MainHandler"),
+    (r"/search/(.*)", "server.controller.main.SearchHandler"),
+    (r"/detail/(.*)", "server.controller.main.IPHandler"),
 ]
