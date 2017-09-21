@@ -3,6 +3,7 @@
 
 import orm.db
 from mongoengine import *
+from utils.ipaddr import iplookup, ip2domain
 
 
 class ServicesInfo(Document):
@@ -24,16 +25,67 @@ class ServicesInfo(Document):
 
     @classmethod
     def searchByName(cls, name):
-        return cls.objects(name=name)
+        objs = cls.objects(name=name)
+        res = {}
+        for obj in objs:
+            if obj.ip in res:
+                tmp = "%s/%s" % (obj.name, obj.port)
+                if tmp not in res[obj.ip]["services"]:
+                    res[obj.ip]["services"].append(tmp)
+            else:
+                tmp = {}
+                tmp["ip"] = obj.ip
+                tmp["addr"] = iplookup(obj.ip)
+                tmp["domain"] = ip2domain(obj.ip)
+                tmp["os"] = ""
+                tmp["services"] = ["%s/%s" % (obj.name, obj.port)]
+                res[obj.ip] = tmp
+
+        return res.values()
 
     @classmethod
     def searchByPort(cls, port):
-        return cls.objects(port=port)
+        objs = cls.objects(port=port)
+        res = {}
+        for obj in objs:
+            if obj.ip in res:
+                tmp = "%s/%s" % (obj.name, obj.port)
+                if tmp not in res[obj.ip]["services"]:
+                    res[obj.ip]["services"].append(tmp)
+            else:
+                tmp = {}
+                tmp["ip"] = obj.ip
+                tmp["addr"] = iplookup(obj.ip)
+                tmp["domain"] = ip2domain(obj.ip)
+                tmp["os"] = ""
+                tmp["services"] = ["%s/%s" % (obj.name, obj.port)]
+                res[obj.ip] = tmp
+
+        return res.values()
 
     @classmethod
     def searchByIP(cls, ip):
-        return cls.objects(ip=ip)
+        objs = cls.objects(ip=ip)
+        res = {}
+        res["ip"] = ip
+        res["addr"] = iplookup(ip)
+        res["domain"] = ip2domain(ip)
+        res["os"] = ""
+        res["services"] = set()
+        for obj in objs:
+            res["services"].add("%s/%s" % (obj.name, obj.port))
+        # remove duplication
+        res["services"] = list(res["services"])
+        return [res]
 
     @classmethod
     def getDetailByIP(cls, ip):
-        return cls.objects(ip=ip)
+        objs = cls.objects(ip=ip)
+        res = []
+        for obj in objs:
+            res.append({
+                "ip": obj.ip,
+                "name": obj.name,
+                "banner": obj.banner
+            })
+        return res

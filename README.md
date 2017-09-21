@@ -6,26 +6,21 @@ A port scan project.
 
 # Installation
 
-### Python Requirements
-
-* redis
-* pymongo
-
-### Binary Requirements
+### Requirements
 
 * nmap
 * zmap
+* rabbitmq
 
 ### Installation on Ubuntu
 
-```
+```shell
 git clone https://github.com/sea0breeze/cernet-hawk.git
+chmod +x do.sh
 ```
 
 # Usage
 
-<!-- add usage -->
-
-# License
-
-<!-- add license -->
+```shell
+./do.sh startall
+```
