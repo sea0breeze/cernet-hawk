@@ -3,7 +3,7 @@
 
 from ftplib import FTP
 
-from lib.log import cprint
+from utils.log import cprint
 from common.classes.PortBase import PortBase
 from orm.servicesinfo import ServicesInfo
 
@@ -15,7 +15,6 @@ class ftpDetect(PortBase):
         self.name = "ftpDetect"
 
     def run(self, ip, port=21, timeout=2):
-        # cprint("msg","info")
         try:
             ftp = FTP()
             ftp.connect(ip, port, timeout=timeout)
@@ -28,13 +27,14 @@ class ftpDetect(PortBase):
             flist = []
             ftp.retrlines('LIST', lambda i: flist.append(i))
             self.data.flist = flist
-            ftp.quit()
             ServicesInfo.add(ip, port, 'ftp', self.data)
-            self.clear()
 
         except Exception, e:
             cprint(str(e), 'error')
             return None
+        finally:
+            ftp.quit()
+            self.clear()
 
         return True
 

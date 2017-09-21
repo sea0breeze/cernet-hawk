@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-from lib.log import cprint
+from utils.log import cprint
 from common.classes.PortBase import PortBase
 from orm.servicesinfo import ServicesInfo
 from thirdparty.Wappalyzer.Wappalyzer import WebPage

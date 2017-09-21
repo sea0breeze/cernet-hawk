@@ -19,11 +19,9 @@ from utils.log import cprint
 
 class sshDetect(PortBase):
     '''
-    :return str. banner
-    :
+    SSH Detection
 
     '''
-    # not complete yet
 
     def __init__(self):
         super(sshDetect, self).__init__()
@@ -54,16 +52,17 @@ class sshDetect(PortBase):
             tran.start_client()
             pubkey = tran.get_remote_server_key()
             self.data.pubkey_name = pubkey.get_name()
-            fp= pubkey.get_fingerprint()
+            fp = pubkey.get_fingerprint()
             self.data.pubkey_fingerprint = ':'.join(map(lambda x:x.encode('hex'), fp))
-
-            tran.close()
+            
             ServicesInfo.add(ip, port, 'ssh', self.data)
-            self.clear()
 
         except Exception as e:
             cprint(str(e), 'error')
             return None
+        finally:
+            tran.close()
+            self.clear()
 
         return True
 
