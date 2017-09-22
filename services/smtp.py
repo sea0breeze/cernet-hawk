@@ -28,32 +28,34 @@ class smtpDetect(PortBase):
 
     def run(self, ip, port=25):
         try:
-            server = smtplib.SMTP()
-            self.data.banner = server.connect(ip, str(port))[1]
-            self.data.ehlo = server.ehlo()[1].split('\n')
+            s = socket.socket()
+            s.connect((ip, port))
+            banner = s.recv(1024).rstrip('\r\n')
+            if banner[:3] == '220':
+                self.data.banner = banner[4:]
+            s.send('EHLO test\n')
+            ehlo = s.recv(1024).replace('\r', '').rstrip().split('\n')[1:]
+            self.data.ehlo = map(lambda x: x[4:], ehlo)
         except Exception as e:
             cprint(str(e), 'error')
             self.clear()
+            s.close()
             return None
-        finally:
-            server.quit()
 
         if 'STARTTLS' in self.data.ehlo:
             try:
-                s = socket.socket()
-                s.connect((ip, port))
-                s.recv(1024)
                 s.send("STARTTLS\n")
-                print s.recv(1024)
-                ss = ssl.wrap_socket(s)
-                cert = ss.getpeercert(True)
-                self.data.update(parse_der(cert))
+                resp = s.recv(1024)
+                if resp[:3] == '220':
+                    ss = ssl.wrap_socket(s)
+                    cert = ss.getpeercert(True)
+                    self.data.update(parse_der(cert))
             except Exception as e:
                 cprint(str(e), 'error')
                 self.clear()
                 return None
             finally:
-                ss.close()
+                s.close()
 
         ServicesInfo.add(ip, port, 'smtp', self.data)
         self.clear()
