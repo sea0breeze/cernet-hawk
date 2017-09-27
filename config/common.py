@@ -9,6 +9,7 @@ from config.mode import mode
 NMAP_CMD = ['-sS', '-Pn', '-sV', '-oX', '-']
 ZMAP_CMD = ['-q', '-v', '0', '-B', '2M']  # silent
 PORTS = ["80",
+         "8080",
          "21",
          "22",
          "25",
