@@ -7,6 +7,7 @@ import chardet
 import requests
 from bs4 import BeautifulSoup
 
+
 class WebPage(object):
     """
     Simple representation of a web page, decoupled
@@ -68,7 +69,8 @@ class WebPage(object):
         return {
             "apps": ';'.join(self.apps),
             "title": self.title,
-            "content": self.html
+            "content": self.html,
+            "headers": dict(self.headers)
         }
 
 
