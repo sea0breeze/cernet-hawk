@@ -16,7 +16,12 @@ A port scan project.
 
 ```shell
 git clone https://github.com/sea0breeze/cernet-hawk.git
+chmod +x cli/install.sh
+chmod +x cli/iptables.sh
 chmod +x do.sh
+
+./cli/iptables.sh
+./cli/install.sh
 ```
 
 # Usage
