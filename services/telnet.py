@@ -6,34 +6,41 @@ refer:
     http://www.cnblogs.com/dazhaxie/archive/2012/06/27/2566054.html
     ref 854 855
 '''
+import socket
 
-import telnetlib
+from utils.log import cprint
 from common.classes.PortBase import PortBase
+from orm.servicesinfo import ServicesInfo
 
 
 class telnetDetect(PortBase):
 
     '''
-    :str. banner
-    :
+    Telnet Detection.
 
     '''
-    # not complete yet
 
     def __init__(self):
         super(telnetDetect, self).__init__()
         self.name = "telnetDetect"
 
-    def run(self, ip, port=53):
-        # not complete yet
+    def run(self, ip, port=23):
         try:
-            pass
-            # tn = telnetlib.Telnet(host=ip, port=port, 'telnet')
+            s = socket.socket()
+            s.connect((ip, port))
+            banner = s.recv(1024)
+            if banner.endswith('login: '):
+                banner = banner[:-7]
+            self.data.banner = banner
+            ServicesInfo.add(ip, port, 'telnet', self.data)
         except Exception as e:
-            # cprint(str(e), 'error')
-            tn.close()
+            cprint(str(e), 'error')
+            return None
         finally:
-            return
+            s.close()
+            self.clear()
+
+        return True
 
 if __name__ == '__main__':
     telnetTest = telnetDetect("0.0.0.0")

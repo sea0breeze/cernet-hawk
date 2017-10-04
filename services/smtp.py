@@ -5,7 +5,6 @@
 refer:
 '''
 
-import smtplib
 import socket
 import ssl
 from utils.log import cprint
@@ -20,7 +19,6 @@ class smtpDetect(PortBase):
     SMTP Detection.
 
     '''
-    # not complete yet
 
     def __init__(self):
         super(smtpDetect, self).__init__()
