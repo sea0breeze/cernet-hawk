@@ -4,6 +4,7 @@
 import os
 import time
 import json
+import random
 
 import requests
 
@@ -59,7 +60,7 @@ class Dispatcher(Daemon):
         if cnt > NMAPLIMIT:
             return
         tasks = ZmapInfo.getTodayUndispathced()
-
+        random.shuffle(tasks)
         for task in tasks:
             self.n.delay(task.ip, map(str, task.ports))
             ZmapInfo.objects(id=task.id).update(dispatched=True)
@@ -110,7 +111,7 @@ class Dispatcher(Daemon):
         if cnt > SERVICESLIMIT:
             return
         tasks = NmapInfo.getTodayUndispathced()
-
+        random.shuffle(tasks)
         for task in tasks:
             if task.name not in servicesShouldHandle:
                 continue
