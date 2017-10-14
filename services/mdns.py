@@ -10,14 +10,11 @@ import dns.resolver
 from common.classes.PortBase import PortBase
 
 
-class dnsDetect(PortBase):
+class mdnsDetect(PortBase):
 
     '''
-    :str. banner
-    :
-
+    dns will conflict with python dns library
     '''
-    # not complete yet
 
     def __init__(self):
         super(dnsDetect, self).__init__()
