@@ -17,8 +17,8 @@ class mdnsDetect(PortBase):
     '''
 
     def __init__(self):
-        super(dnsDetect, self).__init__()
-        self.name = "dnsDetect"
+        super(mdnsDetect, self).__init__()
+        self.name = "mdnsDetect"
 
     def run(self, ip, port=53, timeout=2):
         try:
