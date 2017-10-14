@@ -31,7 +31,7 @@ class telnetDetect(PortBase):
             banner = s.recv(1024)
             if banner.endswith('login: '):
                 banner = banner[:-7]
-            self.data.banner = banner
+            self.data.banner = repr(banner)
             ServicesInfo.add(ip, port, 'telnet', self.data)
         except Exception as e:
             cprint(str(e), 'error')
