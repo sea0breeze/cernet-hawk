@@ -59,7 +59,7 @@ class Dispatcher(Daemon):
 
         if cnt > NMAPLIMIT:
             return
-        tasks = ZmapInfo.getTodayUndispathced()
+        tasks = list(ZmapInfo.getTodayUndispathced())
         random.shuffle(tasks)
         for task in tasks:
             self.n.delay(task.ip, map(str, task.ports))
@@ -110,7 +110,7 @@ class Dispatcher(Daemon):
 
         if cnt > SERVICESLIMIT:
             return
-        tasks = NmapInfo.getTodayUndispathced()
+        tasks = list(NmapInfo.getTodayUndispathced())
         random.shuffle(tasks)
         for task in tasks:
             if task.name not in servicesShouldHandle:
