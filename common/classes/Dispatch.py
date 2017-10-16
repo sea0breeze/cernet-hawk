@@ -103,8 +103,7 @@ class Dispatcher(Daemon):
         cnt = 0
         for task in tasks:
             tmp = tasks[task]
-            if tmp["name"] != "nmapscan"\
-                    and tmp["name"] != "zmapscan"\
+            if tmp["name"] not in ["nmapscan", "zmapscan"] \
                     and tmp["state"] == "STARTED":
                 cnt += 1
 
