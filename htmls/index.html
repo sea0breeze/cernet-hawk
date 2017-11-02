@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <link rel="stylesheet" href="https://bootswatch.com/flatly/bootstrap.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <!--<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"-->
+    <!--integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"-->
+    <!--crossorigin="anonymous"></script>-->
+</head>
+<body ng-app="myApp" ng-controller="tableController">
+<div class="container">
+    <!-- Static navbar -->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                </button>
+                <a class="navbar-brand" href="/">搜索</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="#"><a href="/">关于</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+
+        </div><!--/.container-fluid -->
+    </nav>
+</div>
+<div class="container">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="Search">
+        <span class="input-group-btn">
+                <button class="btn btn-default" ng-click="search()">搜索</button>
+            </span>
+    </div>
+
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="results" style="margin-top: 30px;">
+                <div class="panel panel-primary" ng-repeat="x in things.data" ng-cloak>
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><span class="ip">
+                            <i class="fa fa-fw fa-linux" aria-hidden="true" data-toggle="tooltip"
+                               data-placement="bottom" title="" data-original-title="operating system"></i>
+                            <a href="/ipv4/45.76.197.71" style="color: #ffffff">{{x.ip}}</a></span></h3>
+                    </div>
+                    <div class="results-metadata">
+                    <span class="detail"><i class="fa fa-fw fa-cloud" aria-hidden="true" data-toggle="tooltip"
+                                            data-placement="bottom" title=""
+                                            data-original-title="autonomous system"></i>Windows</span>
+                        <br>
+                        <span class="detail"><i class="fa fa-fw fa-map-marker" aria-hidden="true"
+                                                data-toggle="tooltip"
+                                                data-placement="bottom" title=""
+                                                data-original-title="geographic location"></i>上海交通大学·闵行校区</span>
+                        <br>
+                        <span class="detail"><i class="fa fa-fw fa-map-marker" aria-hidden="true"
+                                                data-toggle="tooltip"
+                                                data-placement="bottom" title=""
+                                                data-original-title="geographic location"></i>sjtu.edu.cn</span>
+                        <span class="detail"><i class="fa fa-fw fa-map-marker" aria-hidden="true"
+                                                data-toggle="tooltip"
+                                                data-placement="bottom" title=""
+                                                data-original-title="geographic location"></i>ssh/22</span>
+                        <span class="detail"><i class="fa fa-fw fa-map-marker" aria-hidden="true"
+                                                data-toggle="tooltip"
+                                                data-placement="bottom" title=""
+                                                data-original-title="geographic location"></i>http/80</span>
+                        <span class="detail"><i class="fa fa-fw fa-map-marker" aria-hidden="true"
+                                                data-toggle="tooltip"
+                                                data-placement="bottom" title=""
+                                                data-original-title="geographic location"></i>RPC/3306</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('tableController', function ($scope, $http) {
+        $scope.customerTable = [];
+        $scope.search = function () {
+            $http({
+                method: 'GET',
+                url: 'http://127.0.0.1:5000'
+            }).then(function (response) {
+                window.alert(response);
+                $scope.things = response.data;
+            });
+//            $scope.things = {
+//                "status": "ok",
+//                "data": [
+//                    {
+//                        "ip": "8.8.8.8",
+//                        "addr": "Beijin",
+//                        "services": ["ssh/22", "http/80"],
+//                        "domain": "xxx.com",
+//                        "os": "Ubuntu"
+//                    }, {
+//                        "ip": "114.114.114.114",
+//                        "addr": "Shanghai",
+//                        "services": ["stmp/25", "https/443"],
+//                        "domain": "hxax.com",
+//                        "os": "Windows"
+//                    }
+//                ]
+//            }
+        };
+    });
+</script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
+</body>
+</html>

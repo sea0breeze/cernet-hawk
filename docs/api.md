@@ -22,7 +22,7 @@ ok
             "domain" : "xxx.com",
             "os" : "Ubuntu"
         }, {
-            "ip": "114.114.114.114"
+            "ip": "114.114.114.114",
             "addr" : "Shanghai",
             "services" : ["stmp/25", "https/443"],
             "domain" : "hxax.com",
