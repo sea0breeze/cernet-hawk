@@ -36,7 +36,7 @@
 </div>
 <div class="container">
     <div class="input-group">
-        <input type="text" class="form-control" placeholder="Search">
+        <input type="text" class="form-control" placeholder="Search" id="keyword" required>
         <span class="input-group-btn">
                 <button class="btn btn-default" ng-click="search()">搜索</button>
             </span>
@@ -52,7 +52,7 @@
                             <h3 class="panel-title"><span class="ip">
                             <i class="fa fa-fw fa-linux" aria-hidden="true" data-toggle="tooltip"
                                data-placement="bottom" title="" data-original-title="operating system"></i>
-                            <a href="/ipv4/{{x.ip}}" style="color: #ffffff">{{ x.ip }}</a><button class="pull-right" style="background-color: #2d3e4f" onclick="sayfuck()">+</button>
+                            {{ x.ip }}<button class="pull-right" style="background-color: #2d3e4f" ng-click="detail(x.ip)">+</button>
                             </span>
                             </h3>
                         </div>
@@ -88,10 +88,20 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title">Modal title</h2>
+                    <h2 class="modal-title">{{ modal_data.ip }}</h2>
                 </div>
                 <div class="modal-body">
-                    <h3>Modal body text goes here.</h3>
+                    <div ng-repeat="x in modal_data.data" ng-cloak>
+                        <div>
+                            <h3>{{ x.port }}|{{ x.name }}</h3>
+                            <ul class="list-group" ng-repeat="(key,value) in x.banner">
+                                <li class="list-group-item">
+                                    <span class="tag tag-default tag-pill float-xs-right"><h4 style="display:inline ;margin-right:5px">{{ key }}</h4></span>
+                                    {{ value }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -101,40 +111,32 @@
     </div>
 </div>
 <script>
-    function sayfuck() {
-        $('#modal').modal('show');
-    }
-</script>
-<script>
     var app = angular.module('myApp', []);
     app.controller('tableController', function ($scope, $http) {
         $scope.customerTable = [];
-        $scope.search = function () {
+        $scope.detail = function (ip) {
             $http({
                 method: 'GET',
-                url: '/json'
+                url: '/detail/' + ip
             }).then(function (response) {
                 //window.alert(response);
-                $scope.things = response.data;
+                $scope.modal_data = {'ip': ip, 'data': response.data.data};// modal 中展示的数据，通过$scope 传递
+                window.console.log($scope.modal_data.data);
+                $('#modal').modal('show');
+                sayfuck();
             });
-//            $scope.things = {
-//                "status": "ok",
-//                "data": [
-//                    {
-//                        "ip": "8.8.8.8",
-//                        "addr": "Beijin",
-//                        "services": ["ssh/22", "http/80"],
-//                        "domain": "xxx.com",
-//                        "os": "Ubuntu"
-//                    }, {
-//                        "ip": "114.114.114.114",
-//                        "addr": "Shanghai",
-//                        "services": ["stmp/25", "https/443"],
-//                        "domain": "hxax.com",
-//                        "os": "Windows"
-//                    }
-//                ]
-//            }
+        };
+        $scope.search = function () {
+            if ($('#keyword').val()) {
+                $http({
+                    method: 'GET',
+                    url: '/search/' + $('#keyword').val()
+                }).then(function (response) {
+                    //window.alert(response);
+                    $scope.things = response.data;
+
+                });
+            }
         };
     });
 </script>
