@@ -11,15 +11,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    <!--<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"-->
-    <!--integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"-->
-    <!--crossorigin="anonymous"></script>-->
+    <script src="static/angular.min.js"></script>
 </head>
 
 <body ng-app="myApp" ng-controller="tableController">
     <div class="container">
-        <!-- Static navbar -->
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -32,9 +28,7 @@
                         <li class="#"><a href="/">关于</a></li>
                     </ul>
                 </div>
-                <!--/.nav-collapse -->
             </div>
-            <!--/.container-fluid -->
         </nav>
     </div>
     <div class="container">
@@ -116,11 +110,11 @@
                 method: 'GET',
                 url: '/detail/' + ip
             }).then(function(response) {
-                //window.alert(response);
-                $scope.modal_data = { 'ip': ip, 'data': response.data.data }; // modal 中展示的数据，通过$scope 传递
-                window.console.log($scope.modal_data.data);
+                $scope.modal_data = {
+                    'ip': ip,
+                    'data': response.data.data
+                };
                 $('#modal').modal('show');
-                sayfuck();
             });
         };
         $scope.search = function() {
@@ -129,7 +123,6 @@
                     method: 'GET',
                     url: '/search/' + $('#keyword').val()
                 }).then(function(response) {
-                    //window.alert(response);
                     $scope.things = response.data;
                 });
             }

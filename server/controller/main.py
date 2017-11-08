@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
+import os
 import tornado.web
 from server.controller.base import BaseHandler
 from orm.servicesinfo import ServicesInfo
@@ -9,7 +10,8 @@ from orm.servicesinfo import ServicesInfo
 class MainHandler(BaseHandler):
 
     def get(self):
-        self.render("index.html")
+        with open(os.path.join("server", "static", "index.html"), "r") as f:
+            self.write(f.read())
 
 
 class SearchHandler(BaseHandler):
