@@ -20,6 +20,7 @@ class redisDetect(PortBase):
         try:
             r = redis.StrictRedis(host=host, port=6379, db=0)
             self.data.config = r.config_get()
+            ServicesInfo.add(ip, port, 'redis', self.data)
         except Exception, e:
             self.data.exception = e
 

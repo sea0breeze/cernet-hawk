@@ -20,6 +20,7 @@ class mongoDetect(PortBase):
         try:
             conn = pymongo.MongoClient(ip, port, 'mongo')
             dbname = conn.database_names()
+            ServicesInfo.add(ip, port, 'mongo', {"vuln":"null pwd"})
             return True
         except Exception as e:
             return False

@@ -8,12 +8,15 @@ from config.mode import mode
 
 NMAP_CMD = ['-sS', '-Pn', '-sV', '-oX', '-']
 ZMAP_CMD = ['-q', '-v', '0', '-B', '2M']  # silent
-PORTS = ["80",
-         "8080",
-         "21",
-         "22",
-         "25",
-         "443"]
+PORTS = [
+    "21",
+    "22",
+    "25",
+    "80",
+    "8080",
+    "27017",
+    "6379",
+]
 
 
 # only when cpint's level >= this level, will print
@@ -44,4 +47,13 @@ TIMEOUT = 30
 disableColor = False
 
 # services should be handled
-servicesShouldHandle = ["http", "https"]
+servicesShouldHandle = [
+    "ssh",
+    "smtp",
+    "ftp",
+    "http",
+    "https",
+    "telnet",
+    "mongo",
+    "redis",
+]
