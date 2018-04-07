@@ -11,6 +11,7 @@ import config.common
 import config.paths
 from common.classes.Base import Base
 from orm.nmapinfo import NmapInfo
+from orm.servicesinfo import ServicesInfo
 from utils.log import cprint
 from utils.ipaddr import isIPv4
 
@@ -94,8 +95,10 @@ class NmapScan(Base):
         cprint('Start scanning {} on port {} with nmap'.format(ip, ','.join(ports)), 'info')
         cmd = [self.nmap_path] + config.common.NMAP_CMD + \
               [ip, '-p', ','.join(ports)]
+        v6Scan = False
         if not isIPv4(ip):  # ipv6
             cmd.append('-6')
+            v6Scan = True
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
         out, error = p.communicate()
@@ -111,7 +114,15 @@ class NmapScan(Base):
         f.close()
         cprint('nmap result %s' % self.parse_nmap_xml(filename), 'debug')
         self.nmap_result[ip] = self.parse_nmap_xml(filename)
-        NmapInfo.addWithJson(dumps(self.nmap_result))
+        if v6Scan:
+            for port in self.nmap_result[ip]:
+                ServicesInfo.add(ip, port, self.nmap_result[ip][port]["name"], {
+                    "version": self.nmap_result[ip][port]["version"],
+                    "extrainfo": self.nmap_result[ip][port]["extrainfo"],
+                    "product": self.nmap_result[ip][port]["product"],
+                })
+        else:
+            NmapInfo.addWithJson(dumps(self.nmap_result))
 
     def nouse_run(self, ipdir):
         """
