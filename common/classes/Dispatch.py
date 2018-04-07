@@ -15,6 +15,8 @@ from config.common import DEBUG
 from config.common import Offline
 from config.common import servicesShouldHandle
 from config.paths import zmapconf
+from config.paths import v6conf
+from config.paths import nmapprogress
 from config.paths import zmapprogress
 from config.paths import modulepath
 
@@ -45,8 +47,38 @@ class Dispatcher(Daemon):
 
     def oneRound(self):
         self.dispatchZmap()
+        self.dispatchNmapV6()
         self.dispatchNmap()
         self.dispatchServices()
+
+    def dispatchNmapV6(self):
+        tasks = json.loads(requests.get(apitasks).content)
+        cnt = 0
+        for task in tasks:
+            tmp = tasks[task]
+            if tmp["name"] == "nmapscan"\
+                    and tmp["state"] == "STARTED":
+                cnt += 1
+
+        if cnt > NMAPLIMIT:
+            return
+
+        if os.path.exists(nmapprogress) \
+                and (os.stat(nmapprogress).st_mtime > unixtoday()):
+            line = int(open(nmapprogress).read().strip()) + 1
+        else:
+            line = 0
+
+        zfile = open(nmapprogress, "w")
+        zfile.write(str(line))
+        zfile.close()
+
+        nets = [i.strip('\n') for i in open(v6conf)]
+        if line >= len(nets):
+            return False
+        else:
+            self.n.delay(nets[line])
+            return True
 
     def dispatchNmap(self):
         tasks = json.loads(requests.get(apitasks).content)

@@ -19,8 +19,10 @@ dispatchpid = join(logpath, "dispatch.pid")
 dispatchlog = join(logpath, "dispatch.log")
 
 zmapprogress = join(logpath, "zmapProgress.log")
+nmapprogress = join(logpath, "nmapprogress.log")
 
 # ==== net =====
 
 zmapconf = join(".", "config", "cernet.conf")
+v6conf = join(".", "config", "cernetv6.conf")
 
