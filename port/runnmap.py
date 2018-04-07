@@ -73,7 +73,7 @@ class NmapScan(Base):
 
         return result
 
-    def run(self, ip, ports):
+    def run(self, ip, ports=config.common.PORTS):
         """
         Must run as root.
         Use nmap to get further imformation about the ip and ports
@@ -142,4 +142,4 @@ if __name__ == "__main__":
     print 'Testing'
     test = NmapScan()
     test.run('140.82.4.59', ['22', '80'])
-    test.run('2001:19f0:5:4e6c:5400:1ff:fe6b:e0cf', ['22', '80'])
+    test.run('2001:da8:8000:6::301', ['22', '80'])
