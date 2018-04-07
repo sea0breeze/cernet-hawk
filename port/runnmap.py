@@ -7,11 +7,12 @@ import subprocess
 import xml.etree.cElementTree as ET
 from json import dumps
 
-import config.paths
 import config.common
+import config.paths
 from common.classes.Base import Base
 from orm.nmapinfo import NmapInfo
 from utils.log import cprint
+from utils.ipaddr import isIPv4
 
 
 class NmapScan(Base):
@@ -89,10 +90,12 @@ class NmapScan(Base):
             cprint('Previous scan result exists for {}, just parse the xml.'.format(ip), 'info')
             return self.parse_nmap_xml(filename)
 
-        os.seteuid(0)  # run as root.
+        # os.seteuid(0)  # run as root.
         cprint('Start scanning {} on port {} with nmap'.format(ip, ','.join(ports)), 'info')
         cmd = [self.nmap_path] + config.common.NMAP_CMD + \
-            [ip, '-p', ','.join(ports)]
+              [ip, '-p', ','.join(ports)]
+        if not isIPv4(ip):  # ipv6
+            cmd.append('-6')
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
         out, error = p.communicate()
@@ -102,12 +105,11 @@ class NmapScan(Base):
 
         cprint('Nmap finished scanning {} on {}'.format(
             ip, ','.join(map(str, ports))), 'info')
-
         # store temporary xml file in logs dir.
         f = open(filename, 'w+')
         f.write(out)
         f.close()
-
+        cprint('nmap result %s' % self.parse_nmap_xml(filename), 'debug')
         self.nmap_result[ip] = self.parse_nmap_xml(filename)
         NmapInfo.addWithJson(dumps(self.nmap_result))
 
@@ -139,4 +141,5 @@ class NmapScan(Base):
 if __name__ == "__main__":
     print 'Testing'
     test = NmapScan()
-    test.run({'202.120.7.149': ['80', '22']})
+    test.run('140.82.4.59', ['22', '80'])
+    test.run('2001:19f0:5:4e6c:5400:1ff:fe6b:e0cf', ['22', '80'])

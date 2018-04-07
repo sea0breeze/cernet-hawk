@@ -11,10 +11,9 @@ from utils.mtime import unixnow, str2time, now, unixtoday
 
 
 class NmapInfo(Document):
-
     """nmap"""
 
-    ip = StringField(max_length=30, required=True)
+    ip = StringField(max_length=128, required=True)
     port = IntField(default=0, required=True)
     name = StringField(max_length=100, required=True)
     version = StringField(max_length=100, required=False)
@@ -83,6 +82,7 @@ class NmapInfo(Document):
             if tmp >= start and tmp < end:
                 re.add((i.ip, i.port))
         return re
+
 
 if __name__ == '__main__':
     s = '{"202.120.7.149": {"80": {"version": "1.10.3 ", "extrainfo": "Ubuntu", "ostype": "Linux ", "name": "http ", "product": "nginx "}, "22": {"version": "7.2 p2 Ubuntu 4 ubuntu2.2 ", "extrainfo": "Ubuntu Linux;protocol 2.0 ", "ostype": "Linux ", "name": "ssh ", "product": "OpenSSH "}}}'
