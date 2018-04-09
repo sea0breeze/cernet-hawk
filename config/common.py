@@ -57,5 +57,6 @@ servicesShouldHandle = [
     "https",
     "telnet",
     "mongo",
+    "mysql",
     "redis",
 ]
