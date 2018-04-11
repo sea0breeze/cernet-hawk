@@ -37,7 +37,6 @@ class smtpDetect(PortBase):
         except Exception as e:
             cprint(str(e), 'error')
             self.clear()
-            s.close()
             return None
 
         if 'STARTTLS' in self.data.ehlo:
