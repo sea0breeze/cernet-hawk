@@ -98,3 +98,8 @@ service rabbitmq start
 ```
 ./do.sh web
 ```
+
+# 监控
+
+启动Flower后，可以在本机的5555端口查看当前运行情况。
+启动Web服务器后，可以在本机8888端口查看运行结果。
