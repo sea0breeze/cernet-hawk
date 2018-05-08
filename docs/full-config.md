@@ -83,31 +83,31 @@ service rabbitmq start
 简单启动所有服务
 
 ```
-./do.sh startall
+sudo ./do.sh startall
 ```
 
 启动worker
 
 ```
-./do.sh startworker
+sudo ./do.sh startworker
 ```
 
 启动任务分发
 
 ```
-./do.sh startd
+sudo ./do.sh startd
 ```
 
 启动flower监控
 
 ```
-./do.sh flower
+sudo ./do.sh flower
 ```
 
 启动web服务器
 
 ```
-./do.sh web
+sudo ./do.sh web
 ```
 
 # 监控
