@@ -18,22 +18,18 @@ class ftpDetect(PortBase):
         try:
             ftp = FTP()
             ftp.connect(ip, port, timeout=timeout)
-
             self.data.banner = ftp.getwelcome()
-
             ftp.login()
             self.data.anonymous = True
-
             flist = []
             ftp.retrlines('LIST', lambda i: flist.append(i))
+            ftp.quit()
             self.data.flist = flist
             ServicesInfo.add(ip, port, 'ftp', self.data)
-
         except Exception, e:
             cprint(str(e), 'error')
             return None
         finally:
-            ftp.quit()
             self.clear()
 
         return True
