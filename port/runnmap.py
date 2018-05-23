@@ -109,18 +109,14 @@ class NmapScan(Base):
         cprint('Nmap finished scanning {} on {}'.format(
             ip, ','.join(map(str, ports))), 'info')
         # store temporary xml file in logs dir.
-        f = open(filename, 'w+')
+        f = open(filename.replace(":", "_"), 'w+')
         f.write(out)
         f.close()
         cprint('nmap result %s' % self.parse_nmap_xml(filename), 'debug')
         self.nmap_result[ip] = self.parse_nmap_xml(filename)
         if v6Scan:
             for port in self.nmap_result[ip]:
-                ServicesInfo.add(ip, port, self.nmap_result[ip][port]["name"], {
-                    "version": self.nmap_result[ip][port]["version"],
-                    "extrainfo": self.nmap_result[ip][port]["extrainfo"],
-                    "product": self.nmap_result[ip][port]["product"],
-                })
+                ServicesInfo.add(ip, port, self.nmap_result[ip][port]["name"], self.nmap_result[ip][port])
         else:
             NmapInfo.addWithJson(dumps(self.nmap_result))
 
