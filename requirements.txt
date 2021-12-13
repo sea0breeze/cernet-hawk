@@ -25,7 +25,7 @@ itsdangerous==0.24
 Jinja2==2.9.6
 kombu==4.0.2
 Landscape-Client==16.3+bzr834
-lxml==3.5.0
+lxml==4.6.5
 Mako==1.0.7
 manticore==0.1.4
 MarkupSafe==1.0
