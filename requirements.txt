@@ -64,7 +64,7 @@ six==1.10.0
 sortedcontainers==1.5.7
 tornado==4.5.1
 tox==2.8.1
-Twisted==16.0.0
+Twisted==22.4.0
 unicorn==1.0.1
 urllib3==1.13.1
 vine==1.1.3
