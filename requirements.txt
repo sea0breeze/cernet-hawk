@@ -14,7 +14,7 @@ click==6.7
 configobj==5.0.6
 cryptography==1.2.3
 enum34==1.1.2
-flower==0.9.2
+flower==1.2.0
 futures==3.1.1
 gyp==0.1
 html5lib==0.999
