@@ -26,7 +26,7 @@ Jinja2==2.9.6
 kombu==4.0.2
 Landscape-Client==16.3+bzr834
 lxml==3.5.0
-Mako==1.0.7
+Mako==1.2.2
 manticore==0.1.4
 MarkupSafe==1.0
 mongoengine==0.13.0
