@@ -7,7 +7,7 @@ beautifulsoup4==4.4.1
 billiard==3.5.0.2
 capstone==3.0.5rc2
 celery==4.0.2
-certifi==2017.4.17
+certifi==2022.12.7
 cffi==1.10.0
 chardet==2.3.0
 click==6.7
